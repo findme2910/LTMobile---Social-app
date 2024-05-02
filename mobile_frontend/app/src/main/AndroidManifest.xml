@@ -20,11 +20,10 @@
                 android:name=".ui.activities.HelloActivity"
                 android:exported="false"/>
         <activity
-                android:name=".ui.activities.MainActivity"
+                android:name=".ui.activities.NotificationActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

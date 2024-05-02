@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--sp thì dùng cho font-size-->
+<!--dp dùng cho margin, padding-->
+
+<resources>
+    <dimen name='activity_horizontal_margin'>16dp</dimen>
+    <dimen name='item_margin_top'>16dp</dimen>
+</resources>
