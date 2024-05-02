@@ -30,6 +30,7 @@ android {
 
 dependencies {
     implementation ("org.projectlombok:lombok:1.18.22")
+    implementation("androidx.activity:activity:1.9.0")
     annotationProcessor ("org.projectlombok:lombok:1.18.22")
     compileOnly ("org.projectlombok:lombok:1.18.22")
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
