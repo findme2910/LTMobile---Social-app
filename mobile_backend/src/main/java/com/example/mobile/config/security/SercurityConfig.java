@@ -1,7 +1,7 @@
 package com.example.mobile.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,11 +20,12 @@ public class SercurityConfig {
 	JwtFilter jwtFilter;
 	@Autowired
 	UserDetailService userDetailService;
-	
+
 	@Bean
 	public PasswordEncoder setEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		XorCsrfTokenRequestAttributeHandler requestHandler = new XorCsrfTokenRequestAttributeHandler();
@@ -37,6 +38,7 @@ public class SercurityConfig {
 //		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(request -> request.requestMatchers(PathConfig.getPathPermitAll()).permitAll()
 				.requestMatchers(HttpMethod.GET, PathConfig.getPathPermitAllForGetMethod()).permitAll()
+				.requestMatchers(HttpMethod.POST , PathConfig.getPathPermitAllForPostMethod()).permitAll()
 				.requestMatchers(PathRequest.toStaticResources().toString()).permitAll().anyRequest().authenticated());
 
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
