@@ -29,7 +29,9 @@ android {
 }
 
 dependencies {
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("org.projectlombok:lombok:1.18.22")
+    implementation("androidx.core:core:1.8.0")
     annotationProcessor ("org.projectlombok:lombok:1.18.22")
     compileOnly ("org.projectlombok:lombok:1.18.22")
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")

@@ -15,10 +15,13 @@ public class UserDetailService implements UserDetailsService {
 	private final UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println(username);
+	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
-		return userRepository.findByName(username);
+		return userRepository.findByName(name);
+	}
+	public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
+
+		return userRepository.findByPhone(phone);
 	}
 
 }

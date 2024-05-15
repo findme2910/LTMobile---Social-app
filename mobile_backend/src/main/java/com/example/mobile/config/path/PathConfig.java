@@ -4,8 +4,8 @@ import org.springframework.util.AntPathMatcher;
 
 public class PathConfig {
 	public static String[] getPathPermitAll() {
-		return new String[] { "/","/login",  "/product/type", "/register/**", "/verification/**", "/auth/**",
-				"/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**" };
+		return new String[] { "/", "/user", "/auth/login", "/product/type", "/register/**", "/verification/**",
+				"/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**" };
 	}
 
 	public static String[] oligate() {
@@ -14,6 +14,10 @@ public class PathConfig {
 
 	public static String[] getPathPermitAllForGetMethod() {
 		return new String[] {};
+	}
+
+	public static String[] getPathPermitAllForPostMethod() {
+		return new String[] { "/user/register" };
 	}
 
 	public static String connectWebsocket() {
@@ -34,7 +38,7 @@ public class PathConfig {
 		}
 		for (var x : PathConfig.getPathPermitAll()) {
 
-			if (new AntPathMatcher().match(x, path)) { 
+			if (new AntPathMatcher().match(x, path)) {
 				isCheck = false;
 				break;
 			}

@@ -17,7 +17,7 @@
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
         <activity
-                android:name=".ui.activities.HelloActivity"
+                android:name=".ui.activities.AddFriendActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.MainActivity"
