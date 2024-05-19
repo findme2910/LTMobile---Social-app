@@ -26,7 +26,7 @@ public class FriendRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
-	@OneToOne(cascade = CascadeType.DETACH)
+	@OneToOne(cascade =  CascadeType.ALL , orphanRemoval = false)
 	public User fromUser;
 	public Date createAt;
 }

@@ -6,16 +6,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.mobile.config.security.JwtUtils;
-import com.example.mobile.dto.AddUserDTO;
+
 import com.example.mobile.dto.LoginDTO;
+import com.example.mobile.dto.RegisterDTO;
 import com.example.mobile.dto.ResponseDTO;
 import com.example.mobile.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	
+
 	@Autowired
 	UserService userService;
 
@@ -24,20 +24,29 @@ public class AuthController {
 		try {
 			return ResponseEntity.ok(new ResponseDTO(userService.login(loginDTO)));
 		} catch (Exception e) {
-			System.out.println(e);
-			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
+			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
 		}
 
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> add(@RequestBody AddUserDTO dto) {
+	public ResponseEntity<?> add(@RequestBody RegisterDTO dto) {
 		try {
-			userService.save(dto);
+			userService.register(dto);
 			return ResponseEntity.ok(new ResponseDTO("Success"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
+			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
 		}
 	}
+//	@PostMapping("/")
+//	public ResponseEntity<?> add(@RequestBody RegisterDTO dto) {
+//		try {
+//			userService.register(dto);
+//			return ResponseEntity.ok(new ResponseDTO("Success"));
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
+//		}
+//	}
 }

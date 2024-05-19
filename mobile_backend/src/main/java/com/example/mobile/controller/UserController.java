@@ -46,7 +46,7 @@ public class UserController {
 	@PostMapping("/update")
 	public ResponseEntity<?> add(@RequestBody UserUpdateDTO dto) {
 		try {
-			userService.update(dto);
+//			userService.update(dto);
 			return ResponseEntity.ok(new ResponseDTO("Success"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

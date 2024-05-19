@@ -8,6 +8,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class LoginRequest implements Serializable {
-    private String username;
+    private String phone;
     private String password;
 }

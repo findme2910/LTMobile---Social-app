@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
+import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.model.FriendRequestModel;
 import com.example.myapplication.network.api.Friend.FriendAddManager;
 import com.example.myapplication.network.api.HandleListener;
@@ -28,9 +29,12 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.View
     private Context mContext;
     private List<FriendRequestModel> mFriendRequests;
 
+    private FriendAddManager friendAddManager;
+
     public AddFriendAdapter(Context context, List<FriendRequestModel> friendRequests) {
         mContext = context;
         mFriendRequests = friendRequests;
+        friendAddManager = new FriendAddManager();
     }
 
     @NonNull
@@ -49,20 +53,15 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.View
         FriendRequestModel friendRequest = mFriendRequests.get(position);
         holder.nameTextView.setText(friendRequest.getName());
         holder.timeTextView.setText(friendRequest.getTime());
-        byte[] decodedBytes = Base64.decode(friendRequest.getAvatar(), Base64.DEFAULT);
-
-        // Chuyển mảng byte thành hình ảnh Bitmap
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
         // Hiển thị hình ảnh trong ImageView
         ImageView imageView = holder.avatarImageView;
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(ImageConvert.base64ToBitMap(friendRequest.getAvatar()));
 
         // Sử lý sự kiện cho các nút
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendAddManager friendAddManager = new FriendAddManager();
                 friendAddManager.acceptAddFriend(friendRequest.getUserId(), new HandleListener<String>() {
                     @Override
                     public void onSuccess(String s) {
@@ -79,10 +78,19 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.View
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.status.setText("Đã gỡ lời mời");
-                holder.status.setVisibility(View.VISIBLE);
-                holder.acceptButton.setVisibility(View.GONE);
-                holder.deleteButton.setVisibility(View.GONE);
+                friendAddManager.rejectAddFriend(friendRequest.getUserId(), new HandleListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        holder.status.setText("Đã gỡ lời mời");
+                        holder.status.setVisibility(View.VISIBLE);
+                        holder.acceptButton.setVisibility(View.GONE);
+                        holder.deleteButton.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                    }
+                });
             }
         });
     }

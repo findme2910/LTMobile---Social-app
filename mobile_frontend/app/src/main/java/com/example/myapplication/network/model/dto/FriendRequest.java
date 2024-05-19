@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class FriendRequest {
-    private int toUserId;
+    private int userId;
 }

@@ -23,14 +23,18 @@ public class AddFriendActivity extends AppCompatActivity {
     private RecyclerView addFriendRecyclerView, requestAddFriendRecyclerView;
     private AddFriendAdapter addFriendAdapter;
     private RequestAddFriend requestAddFriendAdapter;
-    private List<FriendRequestModel> mFriendRequests, addRequestFriend;
+    private List<FriendRequestModel> mFriendRequests, requestAddFriend;
 
+    private TextView numberOfRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
+
+
+        numberOfRequest = findViewById(R.id.numberOfRequest);
 
         mFriendRequests = new ArrayList<>();
 
@@ -44,14 +48,7 @@ public class AddFriendActivity extends AppCompatActivity {
         requestAddFriendRecyclerView = findViewById(R.id.list_request_add_friend);
         requestAddFriendRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        addRequestFriend = new ArrayList<>();
-        addRequestFriend.add(new FriendRequestModel("Le Quang Huy", "4 tuần", ""));
-        addRequestFriend.add(new FriendRequestModel("Quang Huy", "4 tiếng", ""));
-        addRequestFriend.add(new FriendRequestModel("Quang Hoàng", "2 phút", ""));
-
-        requestAddFriendAdapter = new RequestAddFriend(this, addRequestFriend);
-        requestAddFriendRecyclerView.setAdapter(requestAddFriendAdapter);
-
+        requestAddFriend = new ArrayList<>();
     }
 
     @Override
@@ -61,9 +58,10 @@ public class AddFriendActivity extends AppCompatActivity {
         friendAddManager.getFriendAdds(new HandleListener<List<IfReqAddFiendDTO>>() {
             @Override
             public void onSuccess(List<IfReqAddFiendDTO> ifReqAddFiendDTOs) {
-                System.out.println(ifReqAddFiendDTOs.size() + "size");
+//                ((TextView)findViewById(R.id.numberOfRequest)).setText(ifReqAddFiendDTOs.size());
                 for (IfReqAddFiendDTO x : ifReqAddFiendDTOs) {
-                    mFriendRequests.add(new FriendRequestModel(x.getName(), DateConvert.convertToString(x.getTime()), x.getAvatar()));
+
+                    mFriendRequests.add(new FriendRequestModel(x.getUserId(), x.getName(), DateConvert.convertToString(x.getTime()), x.getAvatar()));
                 }
                 // Khởi tạo dữ liệu
 
@@ -76,18 +74,22 @@ public class AddFriendActivity extends AppCompatActivity {
 
             }
         });
-//        HelloManager helloManager = new HelloManager();
-//        helloManager.getHello(new HelloManager.OnHelloListener() {
-//            @Override
-//            public void onLoginSuccess(String hello) {
-//                helloText.setText(hello);
-//            }
-//
-//            @Override
-//            public void onLoginFailure(String errorMessage) {
-//                Toast.makeText(getApplicationContext(),errorMessage,Toast.LENGTH_LONG).show();
-//            }
-//        });
+        friendAddManager.getSuggestFriendAdds(new HandleListener<List<IfReqAddFiendDTO>>() {
+            @Override
+            public void onSuccess(List<IfReqAddFiendDTO> ifReqAddFiendDTOs) {
+                for (IfReqAddFiendDTO x : ifReqAddFiendDTOs) {
+                    requestAddFriend.add(new FriendRequestModel(x.getUserId(), x.getName(), null, x.getAvatar()));
+                }
+                // Khởi tạo dữ liệu
 
+                requestAddFriendAdapter = new RequestAddFriend(getApplicationContext(), requestAddFriend);
+                requestAddFriendRecyclerView.setAdapter(requestAddFriendAdapter);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
     }
 }
