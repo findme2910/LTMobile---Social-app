@@ -9,15 +9,16 @@
     tools:context=".ui.activities.gender">
 
     <TableRow
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
         <ImageView
+            android:id="@+id/back"
             android:src="@drawable/back_button"
             android:layout_gravity="left"
             android:layout_width="wrap_content"/>
     </TableRow>
 
     <TableRow
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
         <TextView
             android:text="Giới tính của bạn là gì?"
             android:textStyle="bold"
@@ -26,7 +27,7 @@
     </TableRow>
 
     <TableRow
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
         <TextView
             android:text="Bạn có thể thay đổi người nhìn thấy giới tính của mình trên trang cá nhân vào lúc khác."
             android:textColor="@color/black"
@@ -53,6 +54,7 @@
 
     <TableRow>
         <Button
+            android:id="@+id/btnNext"
             android:text="Tiếp"
             android:textAllCaps="false"
             android:layout_width="0dp"
@@ -60,5 +62,14 @@
             android:layout_weight="1"
             android:background="@drawable/purple_button"
             android:textColor="#FFFFFF" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/accountExist"
+            android:text="Bạn đã có tài khoản ư?"
+            android:textColor="@color/purple_700"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"/>
     </TableRow>
 </TableLayout>

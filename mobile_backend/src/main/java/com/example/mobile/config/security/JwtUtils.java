@@ -22,8 +22,8 @@ public class JwtUtils {
 	private final String secret = "35763238948271910447123hasodoawoa8792F423F4428472B4B6250655368566D597133743677397A2443264629";
 	private final int jwtExpirationMs = 36000000;
 
-	public String gennerateJwtToken(String username) {
-		return Jwts.builder().setSubject(username).setIssuedAt(new Date())
+	public String gennerateJwtToken(String phone) {
+		return Jwts.builder().setSubject(phone).setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}

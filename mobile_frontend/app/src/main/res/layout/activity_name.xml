@@ -11,13 +11,14 @@
     <TableRow
         android:layout_marginBottom="20dp">
         <ImageView
+            android:id="@+id/back"
             android:src="@drawable/back_button"
             android:layout_gravity="left"
             android:layout_width="wrap_content"/>
     </TableRow>
 
     <TableRow
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
         <TextView
             android:text="Bạn tên gì?"
             android:textStyle="bold"
@@ -58,8 +59,20 @@
             android:padding="10dp" />
     </TableRow>
 
+    <TableRow android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/error"
+            android:textColor="#FF0000"
+            android:visibility="gone"/>
+    </TableRow>
+
+<<<<<<< Updated upstream
+    <TableRow android:layout_weight="1">
+=======
     <TableRow>
+>>>>>>> Stashed changes
         <Button
+            android:id="@+id/btnNext"
             android:text="Tiếp"
             android:textAllCaps="false"
             android:layout_width="0dp"
@@ -67,5 +80,14 @@
             android:layout_weight="1"
             android:background="@drawable/purple_button"
             android:textColor="#FFFFFF" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/accountExist"
+            android:text="Bạn đã có tài khoản ư?"
+            android:textColor="@color/purple_700"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"/>
     </TableRow>
 </TableLayout>

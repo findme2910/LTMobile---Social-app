@@ -17,8 +17,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.DatePicker"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.password"
             android:exported="false" />
+        <activity
+            android:name=".ui.activities.AddFriendActivity"
+            android:exported="false"/>
         <activity
             android:name=".ui.activities.phone"
             android:exported="false" />
@@ -34,23 +40,32 @@
         <activity
             android:name=".ui.activities.name"
             android:exported="true">
+<<<<<<< Updated upstream
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.HelloActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.activities.HelloActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">
+=======
+>>>>>>> Stashed changes
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activities.HelloActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
