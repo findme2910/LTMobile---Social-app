@@ -28,6 +28,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         notifyDataSetChanged();
     }
 
+    public void removeItem(int position) {
+        listNoti.remove(position);
+        notifyItemRemoved(position);
+    }
     @NonNull
     @Override
     public NotificationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

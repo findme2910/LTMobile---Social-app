@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 // so sánh các thông báo dựa trên thời gian để tí nữa sort
 public class Notification implements  Comparable<Notification>{
+
     private String content;
     private int resourceId;
     private String name;
