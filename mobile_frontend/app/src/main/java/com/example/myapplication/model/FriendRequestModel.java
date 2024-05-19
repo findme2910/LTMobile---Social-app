@@ -13,6 +13,4 @@ public class FriendRequestModel {
     private String time;
     private String avatar;
 
-    public FriendRequestModel(String name, String s, String avatar) {
-    }
 }

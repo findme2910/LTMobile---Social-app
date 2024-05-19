@@ -8,16 +8,17 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,9 +35,13 @@ public class User implements UserDetails {
 	private int id;
 
 	private String name;
+	private Gender gender;
+	@Pattern(regexp = "(\\+?84|0)(3[2-9]|5[689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}", message = "Invalid phone number")
 	private String phone;
 	private Date birth;
 	private Blob avatar;
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\\\-={}\\\\[\\\\]|;:'\\\"<>,./?])(?=.*\\\\d).{6,}$", message = "Invalid password")
+	@Size(min = 6)
 	private String password;
 	@OneToMany
 	private List<Comment> comments;
@@ -46,12 +51,12 @@ public class User implements UserDetails {
 	@OneToMany
 	@JsonManagedReference
 	private List<Post> posts;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
 	private List<User> friends;
 	@OneToMany(cascade = CascadeType.ALL)
 //	@JsonBackReference
 	@JsonManagedReference
-	private List<FriendRequest> FriendRequests;
+	private List<FriendRequest> friendRequests;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

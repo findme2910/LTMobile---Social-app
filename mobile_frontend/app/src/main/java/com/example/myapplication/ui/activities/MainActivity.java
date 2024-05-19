@@ -30,27 +30,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
-                startActivity(i);
 
-//                String username = editTextUsername.getText().toString().trim();
-//                String password = editTextPassword.getText().toString().trim();
-//
-//                LoginManager loginManager = new LoginManager();
-//
-//                loginManager.loginUser(username, password, new LoginManager.OnLoginListener() {
-//                    @Override
-//                    public void onLoginSuccess(String token) {
-//                        // Lấy SharedPreferences
-//                        JwtTokenManager.getInstance().setToken(token);
-//                        Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
-//                        startActivity(i);
-//                    }
-//                    @Override
-//                    public void onLoginFailure(String errorMessage) {
-//                        System.out.println(errorMessage);
-//                    }
-//                });
+                String username = editTextUsername.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+
+                LoginManager loginManager = new LoginManager();
+                loginManager.loginUser(username, password, new LoginManager.OnLoginListener() {
+                    @Override
+                    public void onLoginSuccess(String token) {
+                        // Lấy SharedPreferences
+                        JwtTokenManager.getInstance().setToken(token);
+                        Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onLoginFailure(String errorMessage) {
+                        System.out.println(errorMessage);
+                    }
+                });
             }
         });
     }

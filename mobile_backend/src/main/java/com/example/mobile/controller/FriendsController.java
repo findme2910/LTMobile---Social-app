@@ -20,10 +20,6 @@ public class FriendsController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/accept")
-	public ResponseEntity<?> getAcceptAddFriendList() {
-		return ResponseEntity.ok().body(userService.findAllAcceptFriend().stream().map(User::getName));
-	}
 
 	@GetMapping("/suggest")
 	public ResponseEntity<?> getSuggestAddFriendList() {
