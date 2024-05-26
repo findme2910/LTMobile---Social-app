@@ -30,16 +30,15 @@ public class JwtFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		if (PathConfig.checkPathForAuthentication(request.getServletPath(), request.getMethod())) {
-
 			try {
 
 				String token = getTokenFroRequest(request);
 
 				if (StringUtils.hasText(token) && jwtUtils.valiadJwtToken(token)) {
 
-					String username = jwtUtils.getSubjectFromJwtToken(token);
-					
-					UserDetails userDetails = userDetailService.loadUserByUsername(username);
+					String phone = jwtUtils.getSubjectFromJwtToken(token);
+
+					UserDetails userDetails = userDetailService.loadUserByPhone(phone);
 
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());
