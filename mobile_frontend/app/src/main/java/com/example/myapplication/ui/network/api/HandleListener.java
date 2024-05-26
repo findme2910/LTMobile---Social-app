@@ -1,4 +1,4 @@
-package com.example.myapplication.network.api;
+package com.example.myapplication.ui.network.api;
 
 public interface HandleListener<T> {
     void onSuccess(T t);

@@ -1,8 +1,9 @@
-package com.example.myapplication.network.api.Friend;
+package com.example.myapplication.ui.network.api.Friend;
 
-import com.example.myapplication.network.model.dto.FriendRequest;
-import com.example.myapplication.network.model.dto.IfReqAddFiendDTO;
-import com.example.myapplication.network.model.dto.ResponseDTO;
+import com.example.myapplication.ui.network.model.dto.FriendRequest;
+import com.example.myapplication.ui.network.model.dto.IfReqAddFiendDTO;
+import com.example.myapplication.ui.network.model.dto.ResponseDTO;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

@@ -6,15 +6,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import com.example.myapplication.R;
-import com.example.myapplication.network.api.LoginManager;
-import com.example.myapplication.network.model.instance.JwtTokenManager;
+import com.example.myapplication.ui.network.api.LoginManager;
+import com.example.myapplication.ui.network.model.instance.JwtTokenManager;
 
 public class MainActivity extends AppCompatActivity {
     RelativeLayout buttonLogin;
     EditText editTextUsername, editTextPassword;
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,4 +52,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-}
+
+    }

@@ -1,7 +1,8 @@
-package com.example.myapplication.network.api;
+package com.example.myapplication.ui.network.api;
 
-import com.example.myapplication.network.model.dto.ResponseDTO;
-import com.example.myapplication.network.model.instance.JwtTokenManager;
+import com.example.myapplication.ui.network.model.dto.ResponseDTO;
+import com.example.myapplication.ui.network.model.instance.JwtTokenManager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

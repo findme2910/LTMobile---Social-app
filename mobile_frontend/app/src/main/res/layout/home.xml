@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!-- ScrollView để nội dung có thể cuộn được -->
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/navigation_bar">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <!-- Nội dung của bài viết -->
+            <RelativeLayout
+                    android:id="@+id/post1_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                <!-- Profile Image -->
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/profile1_image"
+                        app:cardCornerRadius="30dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp">
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_launcher_background" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@id/profile1_image"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/name1_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Username"
+                            android:textColor="#000"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:id="@+id/time1_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="2h"
+                            android:textColor="#000"
+                            android:textSize="16dp" />
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/post1_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/profile1_image"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Nội dung của bài viết"
+                        android:textColor="#000"
+                        android:textSize="15dp" />
+
+                <ImageView
+                        android:id="@+id/post1_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:layout_below="@id/post1_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@color/black" />
+
+                <LinearLayout
+                        android:id="@+id/count_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/post1_image"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/likeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="100 likes"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:id="@+id/commentCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="20 comments"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/line_after_countLike"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.6dp"
+                        android:layout_below="@id/count_container"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                        android:id="@+id/icon_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/line_after_countLike"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
+
+                    <ImageButton
+                            android:id="@+id/like1_button"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:contentDescription="Thích"
+                            android:src="@drawable/icon_heart" />
+
+                    <!-- Đường ngăn cách dọc -->
+                    <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/darker_gray" />
+
+                    <ImageButton
+                            android:id="@+id/comment1_button"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:contentDescription="Bình luận"
+                            android:src="@drawable/ic_comment" />
+
+                    <!-- Đường ngăn cách dọc -->
+                    <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/darker_gray" />
+
+                    <ImageButton
+                            android:id="@+id/share1_button"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:contentDescription="Chia sẻ"
+                            android:src="@drawable/ic_share" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Thêm các bài viết khác nếu cần -->
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- Thanh điều hướng ở cuối trang -->
+    <LinearLayout
+            android:id="@+id/navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:elevation="8dp">
+
+        <!-- Trang chủ -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            <ImageButton
+                    android:id="@+id/home_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_home"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_button"
+                    android:layout_marginTop="-1dp"
+                    android:text="Trang chủ"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!-- Thêm bạn bè -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            <ImageButton
+                    android:id="@+id/addFriend_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_friends"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addFriend_button"
+                    android:layout_marginTop="5dp"
+                    android:text="Bạn bè"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!-- Thông báo -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            <ImageButton
+                    android:id="@+id/nofication_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_nofication"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nofication_button"
+                    android:layout_marginTop="1dp"
+                    android:text="Thông báo"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!-- Logout -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            <ImageButton
+                    android:id="@+id/logout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_logout" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/logout_button"
+                    android:layout_marginTop="0dp"
+                    android:text="Đăng xuất"
+                    android:textColor="#000"
+                    android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

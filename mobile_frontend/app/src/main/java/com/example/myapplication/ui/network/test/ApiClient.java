@@ -1,4 +1,4 @@
-package com.example.myapplication.network.test;
+package com.example.myapplication.ui.network.test;
 
 import okhttp3.Call;
 import okhttp3.Callback;

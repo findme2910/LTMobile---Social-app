@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvert;
 import com.example.myapplication.model.FriendRequestModel;
-import com.example.myapplication.network.api.Friend.FriendAddManager;
-import com.example.myapplication.network.api.HandleListener;
-import com.example.myapplication.network.api.HelloManager;
-import com.example.myapplication.network.model.dto.IfReqAddFiendDTO;
+import com.example.myapplication.ui.network.api.Friend.FriendAddManager;
+import com.example.myapplication.ui.network.api.HandleListener;
+import com.example.myapplication.ui.network.model.dto.IfReqAddFiendDTO;
 import com.example.myapplication.ui.adapters.AddFriendAdapter;
 import com.example.myapplication.ui.adapters.RequestAddFriend;
 

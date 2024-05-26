@@ -1,4 +1,4 @@
-package com.example.myapplication.network.model.dto;
+package com.example.myapplication.ui.network.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

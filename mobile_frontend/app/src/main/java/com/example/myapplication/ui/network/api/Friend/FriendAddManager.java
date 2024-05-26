@@ -1,11 +1,12 @@
-package com.example.myapplication.network.api.Friend;
+package com.example.myapplication.ui.network.api.Friend;
 
-import com.example.myapplication.network.api.ApiClient;
-import com.example.myapplication.network.api.HandleListener;
-import com.example.myapplication.network.model.dto.FriendRequest;
-import com.example.myapplication.network.model.dto.IfReqAddFiendDTO;
-import com.example.myapplication.network.model.dto.ResponseDTO;
-import com.example.myapplication.network.model.instance.JwtTokenManager;
+import com.example.myapplication.ui.network.api.ApiClient;
+import com.example.myapplication.ui.network.api.HandleListener;
+import com.example.myapplication.ui.network.model.dto.FriendRequest;
+import com.example.myapplication.ui.network.model.dto.IfReqAddFiendDTO;
+import com.example.myapplication.ui.network.model.dto.ResponseDTO;
+import com.example.myapplication.ui.network.model.instance.JwtTokenManager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

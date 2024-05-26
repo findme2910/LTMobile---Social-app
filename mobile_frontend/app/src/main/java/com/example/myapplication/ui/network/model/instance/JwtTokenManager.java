@@ -1,4 +1,4 @@
-package com.example.myapplication.network.model.instance;
+package com.example.myapplication.ui.network.model.instance;
 
 public class JwtTokenManager {
     private static JwtTokenManager instance;
