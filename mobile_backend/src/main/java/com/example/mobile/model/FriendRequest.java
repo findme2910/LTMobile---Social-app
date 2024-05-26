@@ -7,7 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,8 @@ public class FriendRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
-	@OneToOne(cascade =  CascadeType.ALL , orphanRemoval = false)
+	 @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	    @JoinColumn(name = "from_user_id")
 	public User fromUser;
 	public Date createAt;
 }

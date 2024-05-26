@@ -1,11 +1,14 @@
 package com.example.mobile.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,6 +25,7 @@ import com.example.mobile.dto.FriendRequestDTO;
 import com.example.mobile.dto.LikeDTO;
 import com.example.mobile.dto.LoginDTO;
 import com.example.mobile.dto.RegisterDTO;
+import com.example.mobile.dto.UpdateAvatarDTO;
 import com.example.mobile.model.Comment;
 import com.example.mobile.model.FriendRequest;
 import com.example.mobile.model.Gender;
@@ -35,6 +39,7 @@ import com.example.mobile.repository.PostRepository;
 import com.example.mobile.repository.UserRepository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -44,6 +49,10 @@ public class UserServiceImp implements UserService {
 	UserRepository userRepository;
 	@Autowired
 	PostRepository postRepository;
+	@Autowired
+	AuthStaticService authStaticService;
+	@Autowired
+	NotificationService notificationService;
 	@Autowired
 	LikeRepository likeRepository;
 	@Autowired
@@ -119,20 +128,16 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public List<User> findAllAcceptFriend() {
-		return userRepository.findAllExcludeFriend(Arrays.asList(findCurrentUser()));
-	}
-
-	public User findCurrentUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) authentication.getPrincipal();
-		return userRepository.findById(user.getId()).get();
+		return userRepository.findAllExcludeFriend(Arrays.asList(authStaticService.currentUser()));
 	}
 
 	@Override
+	@Transactional
 	public void handleFriendRequest(FriendRequestDTO dto) throws Exception {
-		User current = findCurrentUser();
+		User current = authStaticService.currentUser();
 		Optional<User> toUser = userRepository.findById(dto.getUserId());
 		if (toUser.isPresent()) {
+
 			if (toUser.get().friended(current.getId())) {
 				throw new Exception("To User is your friend");
 			}
@@ -141,6 +146,7 @@ public class UserServiceImp implements UserService {
 			}
 			var friendRequest = FriendRequest.builder().fromUser(current).createAt(new Date()).build();
 			toUser.get().getFriendRequests().add(friendRequest);
+			notificationService.requestAddFriend(toUser.get());
 			userRepository.save(toUser.get());
 		} else {
 			throw new Exception("To User is not present");
@@ -150,12 +156,13 @@ public class UserServiceImp implements UserService {
 	@Override
 	public List<FriendRequest> getAllFriendRequest() throws Exception {
 
-		return findCurrentUser().getFriendRequests();
+		return authStaticService.currentUser().getFriendRequests();
 	}
 
 	@Override
+	@Transactional
 	public void handleAccpetFriendRequest(FriendRequestDTO dto) throws Exception {
-		User user = findCurrentUser();
+		User user = authStaticService.currentUser();
 
 		List<FriendRequest> friendRequests = user.getFriendRequests();
 		Iterator<FriendRequest> it = friendRequests.iterator();
@@ -168,6 +175,7 @@ public class UserServiceImp implements UserService {
 				accept = userRepository.findById(friendRequest.getFromUser().getId()).get();
 				if (accept.getId() == dto.getUserId()) {
 					user.getFriends().add(accept);
+					accept.getFriends().add(user);
 					it.remove();
 					userRepository.save(user);
 					friendRequestRepository.deleteById(friendRequest.getId());
@@ -183,7 +191,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void handleRejectFriendRequest(FriendRequestDTO dto) throws Exception {
-		User user = findCurrentUser();
+		User user = authStaticService.currentUser();
 		List<FriendRequest> friendRequests = user.getFriendRequests();
 		Iterator<FriendRequest> it = friendRequests.iterator();
 		FriendRequest reject = null;
@@ -202,7 +210,7 @@ public class UserServiceImp implements UserService {
 	public List<User> getSuggestAddFriend() {
 		try {
 
-			User current = findCurrentUser();
+			User current = authStaticService.currentUser();
 
 			List<User> exclude = new ArrayList<>(current.getFriends());
 			current.getFriendRequests().forEach(n -> exclude.add(n.getFromUser()));
@@ -225,7 +233,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void handleCancelFriendRequest(FriendRequestDTO dto) throws Exception {
-		User current = findCurrentUser();
+		User current = authStaticService.currentUser();
 		try {
 
 			if (current.friended(dto.getUserId())) {
@@ -253,5 +261,12 @@ public class UserServiceImp implements UserService {
 			e.printStackTrace();
 		}
 		throw new Exception("Invalid userId");
+	}
+
+	@Override
+	public void updateAvatar(UpdateAvatarDTO dto) throws Exception {
+		User user = authStaticService.currentUser();
+		user.setAvatar(ConvertFile.toBlob(dto.getAvatar()));
+		userRepository.save(user);
 	}
 }
