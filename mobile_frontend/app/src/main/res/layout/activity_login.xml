@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".ui.activities.login">
+
+    <TableRow
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:src="@drawable/back_button"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_marginBottom="20dp">
+        <EditText
+            android:hint="Số di động hoặc email"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_border"
+            android:lines="2"
+            android:padding="10dp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_marginBottom="20dp">
+        <EditText
+            android:hint="Mật khẩu"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_border"
+            android:lines="2"
+            android:padding="10dp" />
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:text="Đăng nhập"
+            android:textAllCaps="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/purple_button"
+            android:textColor="@color/white" />
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:id="@+id/btnOpenRegister"
+            android:text="Tạo tài khoản mới"
+            android:textAllCaps="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:textColor="@color/purple_700" />
+    </TableRow>
+</TableLayout>
