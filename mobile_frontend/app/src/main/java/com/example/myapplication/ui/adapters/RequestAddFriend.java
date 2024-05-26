@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
+import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.model.FriendRequestModel;
 import com.example.myapplication.network.api.Friend.FriendAddManager;
 import com.example.myapplication.network.api.HandleListener;
@@ -50,18 +51,9 @@ public class RequestAddFriend extends RecyclerView.Adapter<RequestAddFriend.View
     public void onBindViewHolder(@NonNull @NotNull RequestAddFriend.ViewHolder holder, int position) {
         FriendRequestModel friendRequest = mFriendRequests.get(position);
         holder.nameTextView.setText(friendRequest.getName());
-        byte[] decodedBytes = Base64.decode(friendRequest.getAvatar(), Base64.DEFAULT);
-
-        // Chuyển mảng byte thành hình ảnh Bitmap
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-
         // Hiển thị hình ảnh trong ImageView
         ImageView imageView = holder.avatarImageView;
-        imageView.setImageBitmap(bitmap);
-
-
-
-
+        imageView.setImageBitmap(ImageConvert.base64ToBitMap(friendRequest.getAvatar()));
         // Sử lý sự kiện cho các nút
         holder.addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override

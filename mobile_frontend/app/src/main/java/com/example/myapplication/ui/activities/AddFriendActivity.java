@@ -58,7 +58,7 @@ public class AddFriendActivity extends AppCompatActivity {
         friendAddManager.getFriendAdds(new HandleListener<List<IfReqAddFiendDTO>>() {
             @Override
             public void onSuccess(List<IfReqAddFiendDTO> ifReqAddFiendDTOs) {
-//                ((TextView)findViewById(R.id.numberOfRequest)).setText(ifReqAddFiendDTOs.size());
+                ((TextView)findViewById(R.id.numberOfRequest)).setText(ifReqAddFiendDTOs.size()+"");
                 for (IfReqAddFiendDTO x : ifReqAddFiendDTOs) {
 
                     mFriendRequests.add(new FriendRequestModel(x.getUserId(), x.getName(), DateConvert.convertToString(x.getTime()), x.getAvatar()));
