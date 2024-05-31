@@ -53,7 +53,7 @@ public class PostController {
 	@PostMapping("/like")
 	public ResponseEntity<?> like(@RequestBody LikeDTO dto) {
 		try {
-			userService.like(dto);
+			userService.like(dto); 
 			return ResponseEntity.ok(new ResponseDTO("Success"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
