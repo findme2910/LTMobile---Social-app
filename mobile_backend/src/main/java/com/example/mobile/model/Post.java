@@ -1,5 +1,6 @@
 package com.example.mobile.model;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Post {
 	private int id;
 
 	private String content;
-	private String image;
+	private Blob image;
 	@CreationTimestamp
 	private Date createAt;
 	@CreationTimestamp
