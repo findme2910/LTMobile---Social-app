@@ -1,6 +1,5 @@
 package com.example.mobile.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,11 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.rowset.serial.SerialException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -100,11 +95,12 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void like(LikeDTO dto) throws Exception {
-		Like like = likeRepository.findByUser_IdAndPost_Id(dto.getUserId(), dto.getPostId());
+		User u = authStaticService.currentUser();
+		Like like = likeRepository.findByUser_IdAndPost_Id(u.getId(), dto.getPostId());
 		if (like != null) {
 			likeRepository.delete(like);
 		} else {
-			User user = userRepository.findById(dto.getUserId()).orElseThrow();
+			User user = authStaticService.currentUser();
 			Post post = postRepository.findById(dto.getPostId()).orElseThrow();
 			like = Like.builder().user(user).post(post).createAt(new Date()).build();
 		}
