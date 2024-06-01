@@ -74,8 +74,8 @@ public class UserServiceImp implements UserService {
 			throw new Exception("InValid Gender");
 		User u = User.builder().phone(dto.getPhone()).name(dto.getName())
 				.password(passwordEncoder.encode(dto.getPassword())).comments(new ArrayList<>())
-				.likes(new ArrayList<>()).friends(new ArrayList<>()).posts(new ArrayList<>()).gender(gender)
-				.birth(new Date(dto.getBirth())).avatar(ConvertFile.toBlob(DefaultSource.DEFAULT_AVATAR_MALE)).build();
+				.posts(new ArrayList<>()).gender(gender).birth(new Date(dto.getBirth()))
+				.avatar(ConvertFile.toBlob(DefaultSource.DEFAULT_AVATAR_MALE)).build();
 
 		userRepository.save(u);
 	}
@@ -96,24 +96,32 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void like(LikeDTO dto) throws Exception {
 		User u = authStaticService.currentUser();
+		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
 		Like like = likeRepository.findByUser_IdAndPost_Id(u.getId(), dto.getPostId());
+		System.out.println(like != null);
 		if (like != null) {
-			likeRepository.delete(like);
+			Iterator<Like> it = post.getLikes().iterator();
+			while (it.hasNext()) {
+				if (it.next().getId() == like.getId())
+					it.remove();
+			}
+			postRepository.save(post);
 		} else {
 			User user = authStaticService.currentUser();
-			Post post = postRepository.findById(dto.getPostId()).orElseThrow();
 			like = Like.builder().user(user).post(post).createAt(new Date()).build();
+			post.getLikes().add(like);
+			postRepository.save(post);
 		}
 	}
 
 	@Override
 	public void comment(CommentDTO dto) throws Exception {
-		User user = userRepository.findById(dto.getUserId()).orElseThrow();
+		User user = authStaticService.currentUser();
 		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
 
 		Comment comment = Comment.builder().user(user).post(post).content(dto.getContent()).updateAt(new Date())
 				.createAt(new Date()).build();
-
+		post.getComments().add(comment);
 		commentRepository.save(comment);
 	}
 

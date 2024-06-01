@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation ("androidx.recyclerview:recyclerview:1.3.0")
     implementation ("org.projectlombok:lombok:1.18.22")
     implementation("androidx.core:core:1.8.0")

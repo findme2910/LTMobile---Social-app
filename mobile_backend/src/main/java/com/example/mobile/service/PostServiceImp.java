@@ -33,7 +33,9 @@ public class PostServiceImp implements PostService {
 	@Override
 	public List<Post> get() {
 		User u = authStaticService.currentUser();
-		return postRepository.findFriendPosts(u.getFriends());
+		List<User> users = new ArrayList<>(u.getFriends());
+		users.add(u);
+		return postRepository.findFriendPosts(users);
 	}
 
 }
