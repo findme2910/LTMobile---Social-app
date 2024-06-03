@@ -8,5 +8,6 @@ import lombok.Data;
 @Data
 @JsonInclude(value = Include.NON_NULL)
 public class RequestNotificationDTO {
+	//đây là số lượng thông báo cần đc lấy cho mỗi trang
 	private int next;
 }

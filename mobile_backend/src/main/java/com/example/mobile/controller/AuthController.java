@@ -13,17 +13,22 @@ import com.example.mobile.dto.ResponseDTO;
 import com.example.mobile.service.UserService;
 
 @RestController
+//đánh dấu lớp này như restController, có nghĩa nó có thể xử lý các yêu cầu http và trả về dữ liệu json hoặc xml
 @RequestMapping("/auth")
+// endpoints trong lớp này là auth
 public class AuthController {
 
 	@Autowired
 	UserService userService;
 
+	//ánh xạ yêu cầu http post đến /auth/login
 	@PostMapping("/login")
 	public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 		try {
+			//cho phép chuyển đổi nội dung của yêu cầu từ http thành đối tượng login dto
 			return ResponseEntity.ok(new ResponseDTO(userService.login(loginDTO)));
 		} catch (Exception e) {
+			//badrequest là trả về 400 và một respon chứa thông điệp ỗi
 			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
 		}
 

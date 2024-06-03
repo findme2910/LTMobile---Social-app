@@ -58,7 +58,7 @@ public class User implements UserDetails {
 //	@JsonBackReference
 	@JsonManagedReference
 	private List<FriendRequest> friendRequests;
-	@ElementCollection
+	@OneToMany
 	private List<Notification> notifications;
 
 	@Override

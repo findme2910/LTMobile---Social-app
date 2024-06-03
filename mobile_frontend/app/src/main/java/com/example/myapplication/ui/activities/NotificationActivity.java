@@ -1,24 +1,39 @@
 package com.example.myapplication.ui.activities;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.myapplication.R;
+import com.example.myapplication.model.Notification;
+import com.example.myapplication.network.api.HandleListener;
+import com.example.myapplication.network.api.Notification.NotificationManager;
+import com.example.myapplication.network.model.dto.NotificationDTO;
+import com.example.myapplication.ui.adapters.NotificationAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
 //còn 2 cái phải xử lý đó là sắp xếp theo thời gian, và check seen trong noti
 public class NotificationActivity extends AppCompatActivity {
     private RecyclerView rcvNotiToday;
     private RecyclerView rcvNotiLater;
     private NotificationAdapter notiAdaptertoDay;
     private NotificationAdapter notiAdapterlater;
+
+    private int currentPage =0;
+    private boolean isLoading = false; // biến cờ
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +45,13 @@ public class NotificationActivity extends AppCompatActivity {
         rcvNotiToday =findViewById(R.id.rv_items_today);
         rcvNotiToday.setLayoutManager(linearLayoutManagerToday);
         rcvNotiToday.setAdapter(notiAdaptertoDay);
-        notiAdaptertoDay.setData(getListToday());
+
         //set adapter cho trước đây
         LinearLayoutManager linearLayoutManagerLater = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcvNotiLater = findViewById(R.id.rv_items_later);
         rcvNotiLater.setLayoutManager(linearLayoutManagerLater);
         rcvNotiLater.setAdapter(notiAdapterlater);
-        notiAdapterlater.setData(getListLater());
+
         //Thêm ItemTouchHelper để xử lý vuốt
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -55,25 +70,69 @@ public class NotificationActivity extends AppCompatActivity {
         // Đính kèm ItemTouchHelper vào RecyclerView
         itemTouchHelper.attachToRecyclerView(rcvNotiToday);
         itemTouchHelper.attachToRecyclerView(rcvNotiLater);
+
+        // Thêm trình nghe sự kiện cuộn vào NestedScrollView
+        NestedScrollView nestedScrollView = findViewById(R.id.nested_scroll_view);
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                // Đã cuộn đến cuối danh sách
+                if (!isLoading) {
+                    isLoading = true;
+                    currentPage++;
+                    requestNotification(currentPage);
+                }
+            }
+        });
+        requestNotification(currentPage);
     }
-    //xử lý sau
-    private List<Notification> getListLater(){
-        List<Notification> list = new ArrayList<>();
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_2, "Thái Sơn", new Date(2024 - 1900, 4, 2,6,30,30),false));
-        list.add(new Notification("Đã chấp nhận lời mời kết bạn", R.drawable.avt_1, "Quang Huy", new Date(2024 - 1900, 4, 2,7,30,30),false));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_3, "Hoài Thương", new Date(2022 - 1900, 12, 14,6,30,30),true));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_4, "Hữu Nhân", new Date(2020 - 1900, 12, 14,6,30,30),true));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_5, "Hoài Nam", new Date(2020 - 1900, 12, 14,6,30,30),true));
-        return list;
+
+    private void requestNotification(int next) {
+        NotificationManager notificationManager = new NotificationManager();
+        notificationManager.requestNotification(next, new HandleListener<List<NotificationDTO>>() {
+            @Override
+            public void onSuccess(List<NotificationDTO> notificationDTOS) {
+                List<Notification> notificationsToday = new ArrayList<>();
+                List<Notification> notificationsLater = new ArrayList<>();
+
+                for (NotificationDTO dto : notificationDTOS) {
+                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), dto.getCreateAt(),dto.isActive());
+                    if (isToday(dto.getCreateAt())) {
+                        notificationsToday.add(notification);
+                    } else {
+                        notificationsLater.add(notification);
+                    }
+                }
+                // Sắp xếp thông báo theo ngày
+                sortNotificationsByDate(notificationsToday);
+                sortNotificationsByDate(notificationsLater);
+                // Cập nhật dữ liệu cho các adapter
+                notiAdaptertoDay.setData(notificationsToday);
+                notiAdapterlater.setData(notificationsLater);
+                isLoading = false;
+            }
+
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(NotificationActivity.this, "Failed to load notifications: " + errorMessage, Toast.LENGTH_SHORT).show();
+                isLoading = false;
+            }
+        });
     }
-    private List<Notification> getListToday(){
-        List<Notification> list = new ArrayList<>();
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_2, "Thái Sơn", new Date(2024 - 1900, 4, 2,6,30,30),false));
-        list.add(new Notification("Đã chấp nhận lời mời kết bạn", R.drawable.avt_1, "Quang Huy", new Date(2024 - 1900, 4, 2,7,30,30),false));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_3, "Hoài Thương", new Date(2022 - 1900, 12, 14,6,30,30),true));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_4, "Hữu Nhân", new Date(2020 - 1900, 12, 14,6,30,30),true));
-        list.add(new Notification("Đã thích bài viết của bạn", R.drawable.avt_5, "Hoài Nam", new Date(2020 - 1900, 12, 14,6,30,30),true));
-        return list;
+    //Phân loại thông báo hôm nay và trước đây
+    private boolean isToday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Calendar today = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR);
     }
-    //xử lý logic nó nên là recyclerview hôm nay hay trước đây
+    private void sortNotificationsByDate(List<Notification> notifications) {
+        Collections.sort(notifications, new Comparator<Notification>() {
+            @Override
+            public int compare(Notification n1, Notification n2) {
+                return n2.getCreatedAt().compareTo(n1.getCreatedAt());
+            }
+        });
+    }
 }

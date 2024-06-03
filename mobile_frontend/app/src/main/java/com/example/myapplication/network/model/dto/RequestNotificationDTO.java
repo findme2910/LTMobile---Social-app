@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FriendRequest {
-    private int userId; 
+public class RequestNotificationDTO {
+    private int next;
 }

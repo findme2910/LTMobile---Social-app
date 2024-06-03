@@ -10,13 +10,26 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 public class ConvertFile {
+	/**
+	 * Chuyển đổi một đối tượng blob sang chuỗi base 64
+	 * @param blob
+	 * @return
+	 */
 	public static String toString(Blob blob) {
 		return Base64.getEncoder().encodeToString(extractBytesFromBlob(blob));
 	}
+
+	/**
+	 * Chuyển đổi chuỗi base64 qua blob bằng cách dùng phương thức decode
+	 * @param image
+	 * @return
+	 * @throws SerialException
+	 * @throws SQLException
+	 */
 	public static Blob toBlob(String image) throws SerialException, SQLException {
 		return bytesToBlob(Base64.getDecoder().decode(image));
 	}
-	
+	// tạo một đối tượng blob từ mảng byte
 	private static Blob bytesToBlob(byte[] bytes) throws SerialException, SQLException {
 		return new SerialBlob(bytes);
 	}

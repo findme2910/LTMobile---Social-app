@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.activities;
+package com.example.myapplication.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.model.Notification;
 
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public NotificationAdapter(Context ctx) {
         this.ctx = ctx;
     }
+
+    public NotificationAdapter(List<Notification> listNoti, Context ctx) {
+        this.listNoti = listNoti;
+        this.ctx = ctx;
+    }
+
     public void setData(List<Notification> list){
         this.listNoti = list;
         notifyDataSetChanged();
@@ -44,7 +51,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
         Notification noti = listNoti.get(position);
         if (noti == null) return;
-        holder.imgUser.setImageResource(noti.getResourceId());
+        holder.imgUser.setImageResource(noti.avartar());
         holder.tvContent.setText(noti.getContent());
         holder.tvName.setText(noti.getName());
         holder.tvDate.setText(noti.getDateString());

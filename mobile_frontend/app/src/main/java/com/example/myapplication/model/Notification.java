@@ -1,19 +1,19 @@
-package com.example.myapplication.ui.activities;
+package com.example.myapplication.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 // so sánh các thông báo dựa trên thời gian để tí nữa sort
-public class Notification implements  Comparable<Notification>{
+public class Notification{
 
     private String content;
-    private int resourceId;
+    private int avartar;
     private String name;
     private Date createdAt;
     private boolean active;
 
-    public Notification(String content, int resourceId, String name, Date createdAt, boolean active) {
+    public Notification(String content, int avartar, String name, Date createdAt, boolean active) {
         this.content = content;
-        this.resourceId = resourceId;
+        this.avartar = avartar;
         this.name = name;
         this.createdAt = createdAt;
         this.active = active;
@@ -23,8 +23,8 @@ public class Notification implements  Comparable<Notification>{
         return content;
     }
 
-    public int getResourceId() {
-        return resourceId;
+    public int avartar() {
+        return avartar;
     }
 
     public String getName() {
@@ -43,8 +43,8 @@ public class Notification implements  Comparable<Notification>{
         this.content = content;
     }
 
-    public void setResourceId(int resourceId) {
-        this.resourceId = resourceId;
+    public void setAvartar(int avartar) {
+        this.avartar = avartar;
     }
 
     public void setName(String name) {
@@ -62,9 +62,5 @@ public class Notification implements  Comparable<Notification>{
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'lúc' HH:mm");
         String formattedDate = sdf.format(this.createdAt);
         return formattedDate;
-    }
-    @Override
-    public int compareTo(Notification other) {
-        return getCreatedAt().compareTo(other.getCreatedAt());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mobile.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import com.example.mobile.repository.NotificationRepository;
 import com.example.mobile.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
-
+// triển khai api nội bộ để rest có thể gọi
 @Service
 @AllArgsConstructor
 public class NoticationServiceImp implements NotificationService {
@@ -23,13 +24,31 @@ public class NoticationServiceImp implements NotificationService {
 	@Override
 	public void likeNoti(Post to) {
 		// TODO Auto-generated method stub
-
+		User currUser = authStaticService.currentUser();
+		Notification notification = Notification.builder()
+				.trigger(currUser)
+				.content("đã thích bài viết của bạn.")
+				.post(to)
+				.build();
+		User postOwner = to.getUser();
+		postOwner.getNotifications().add(notification);
+		notificationRepository.save(notification);
+		userRepository.save(postOwner);
 	}
 
 	@Override
 	public void commentNoti(Post post) {
 		// TODO Auto-generated method stub
-
+		User currUser = authStaticService.currentUser();
+		Notification notification = Notification.builder()
+				.trigger(currUser)
+				.content("đã bình luận trên bài viết của bạn.")
+				.post(post)
+				.build();
+		User postOwner = post.getUser();
+		postOwner.getNotifications().add(notification);
+		notificationRepository.save(notification);
+		userRepository.save(postOwner);
 	}
 
 	@Override
@@ -55,10 +74,11 @@ public class NoticationServiceImp implements NotificationService {
 	@Override
 	public List<Notification> getNotis(RequestNotificationDTO dto) {
 		// TODO Auto-generated method stub
+		//lấy hết tất cả notification trong một user ra
 		List<Notification> notifications = authStaticService.currentUser().getNotifications();
-		if (dto.getNext() * 10 >= notifications.size())
-			return null;
-		return authStaticService.currentUser().getNotifications().subList(dto.getNext() * 10,
-				Math.min(dto.getNext() * 10 + 10, notifications.size()));
+		int startIndex = dto.getNext() * 10; //sau đó lấy ra số lượng thông báo cho từng trang
+		if (startIndex >= notifications.size()) return new ArrayList<>();
+		int endIndex = Math.min(startIndex + 10, notifications.size());
+		return notifications.subList(startIndex, endIndex);
 	}
 }
