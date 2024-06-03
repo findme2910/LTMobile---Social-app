@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context=".ui.activities.login">
+    tools:context=".ui.activities.LoginActivity">
 
     <TableRow
         android:layout_marginBottom="20dp">

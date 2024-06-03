@@ -7,13 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.R;
 
-public class login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +28,7 @@ public class login extends AppCompatActivity {
     }
 
     private void doOpenRegister() {
-        Intent intent = new Intent(this, name.class);
+        Intent intent = new Intent(this, NameActivity.class);
         startActivity(intent);
     }
 }

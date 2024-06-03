@@ -22,29 +22,28 @@
         <activity
                 android:name=".ui.activities.NotificationActivity"
                 android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+
+        </activity>
         <activity
-            android:name=".ui.activities.password"
+            android:name=".ui.activities.PasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.AddFriendActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.activities.phone"
+            android:name=".ui.activities.PhoneNumberActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.gender"
+            android:name=".ui.activities.GenderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.birthdate"
+            android:name=".ui.activities.BirthdateActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.login"
+            android:name=".ui.activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.name"
+            android:name=".ui.activities.NameActivity"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
