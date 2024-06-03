@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.mobile.dto.FriendRequestDTO;
 import com.example.mobile.dto.ResponseDTO;
 import com.example.mobile.mapper.UserMapper;
-import com.example.mobile.model.User;
+import com.example.mobile.service.AuthStaticService;
 import com.example.mobile.service.UserService;
 
 @RestController
@@ -19,7 +19,19 @@ import com.example.mobile.service.UserService;
 public class FriendsController {
 	@Autowired
 	UserService userService;
-
+	@Autowired
+	AuthStaticService authStaticService;
+	@GetMapping
+	public ResponseEntity<?> getFriends() {
+		try {
+			return ResponseEntity
+					.ok(authStaticService.currentUser().getFriends().stream()
+							.map(UserMapper.INSTANCE::userEntityToDTO).toList());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
+		}
+	}
 
 	@GetMapping("/suggest")
 	public ResponseEntity<?> getSuggestAddFriendList() {
@@ -35,6 +47,7 @@ public class FriendsController {
 
 	@PostMapping("/addfriend")
 	public ResponseEntity<?> addFriend(@RequestBody FriendRequestDTO dto) {
+		System.out.println(dto);
 		try {
 			userService.handleFriendRequest(dto);
 			return ResponseEntity.ok(new ResponseDTO("Success"));
@@ -64,7 +77,8 @@ public class FriendsController {
 			// TODO Auto-generated catch block
 			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
 		}
-	} 
+	}
+
 	@PostMapping("/cancel/addfriend")
 	public ResponseEntity<?> cancelAddFriend(@RequestBody FriendRequestDTO dto) {
 		try {

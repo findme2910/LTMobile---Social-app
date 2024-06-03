@@ -40,7 +40,6 @@
         <activity
             android:name=".ui.activities.name"
             android:exported="true">
-<<<<<<< Updated upstream
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -49,16 +48,9 @@
 <!--        <activity-->
 <!--            android:name=".ui.activities.HelloActivity"-->
 <!--            android:exported="false" />-->
+                android:name=".ui.activities.AddFriendActivity"/>
         <activity
-            android:name=".ui.activities.MainActivity"
-            android:exported="true">
-=======
->>>>>>> Stashed changes
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                android:name=".ui.activities.NotificationActivity">
         </activity>
         <activity
             android:name=".ui.activities.HelloActivity"

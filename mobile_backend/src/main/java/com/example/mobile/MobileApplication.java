@@ -12,9 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @EnableSpringDataWebSupport
 public class MobileApplication {
-
 	public static void main(String[] args) {
-		
 		SpringApplication.run(MobileApplication.class, args);
 	}
 

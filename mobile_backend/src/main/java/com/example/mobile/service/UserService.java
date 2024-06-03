@@ -7,6 +7,7 @@ import com.example.mobile.dto.FriendRequestDTO;
 import com.example.mobile.dto.LikeDTO;
 import com.example.mobile.dto.LoginDTO;
 import com.example.mobile.dto.RegisterDTO;
+import com.example.mobile.dto.UpdateAvatarDTO;
 import com.example.mobile.model.FriendRequest;
 import com.example.mobile.model.User;
 
@@ -33,5 +34,7 @@ public interface UserService {
 	public List<User> getSuggestAddFriend();
 
 	public void handleCancelFriendRequest(FriendRequestDTO dto) throws Exception;
+
+	public void updateAvatar(UpdateAvatarDTO dto) throws Exception;
 
 }
