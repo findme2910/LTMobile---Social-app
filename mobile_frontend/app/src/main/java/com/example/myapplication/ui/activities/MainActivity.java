@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginSuccess(String token) {
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
-                        Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivity(i);
                     }
+
                     @Override
                     public void onLoginFailure(String errorMessage) {
                         System.out.println(errorMessage);

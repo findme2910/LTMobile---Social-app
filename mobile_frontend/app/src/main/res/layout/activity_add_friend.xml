@@ -38,7 +38,8 @@
                     android:id="@+id/list_add_friend"
                     android:layout_below="@id/loimoi"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:clipChildren="false"/>
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -58,7 +59,8 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_below="@id/loimoi"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:clipChildren="false"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
                     android:id="@+id/list_request_add_friend"/>
         </LinearLayout>
     </LinearLayout>
