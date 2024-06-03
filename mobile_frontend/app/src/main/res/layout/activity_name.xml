@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context=".ui.activities.name">
+    tools:context=".ui.activities.NameActivity">
 
     <TableRow
         android:layout_marginBottom="20dp">
@@ -66,11 +66,8 @@
             android:visibility="gone"/>
     </TableRow>
 
-<<<<<<< Updated upstream
-    <TableRow android:layout_weight="1">
-=======
+
     <TableRow>
->>>>>>> Stashed changes
         <Button
             android:id="@+id/btnNext"
             android:text="Tiếp"
