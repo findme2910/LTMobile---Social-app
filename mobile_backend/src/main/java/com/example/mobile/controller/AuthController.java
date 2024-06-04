@@ -24,15 +24,19 @@ public class AuthController {
 	//ánh xạ yêu cầu http post đến /auth/login
 	@PostMapping("/login")
 	public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+		System.out.println("...");
 		try {
 			//cho phép chuyển đổi nội dung của yêu cầu từ http thành đối tượng login dto
+			System.out.println(userService.login(loginDTO));
 			return ResponseEntity.ok(new ResponseDTO(userService.login(loginDTO)));
 		} catch (Exception e) {
 			//badrequest là trả về 400 và một respon chứa thông điệp ỗi
+			e.printStackTrace();
 			return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
 		}
 
 	}
+
 
 	@PostMapping("/register")
 	public ResponseEntity<?> add(@RequestBody RegisterDTO dto) {

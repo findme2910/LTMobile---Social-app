@@ -8,11 +8,11 @@ import java.util.Date;
 @Data
 @Builder
 public class NotificationDTO {
-	private int avatar;
+	private String avatar;
 	private String name;
 	private int userId;
 	private String content;
-	private Date createAt;
+	private long createAt;
 	private boolean active;
 	private String type;
 	private String postId;

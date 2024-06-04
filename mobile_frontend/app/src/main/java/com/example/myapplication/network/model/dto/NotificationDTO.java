@@ -12,11 +12,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class NotificationDTO {
-    private int avatar;
+    private String avatar;
     private String name;
     private int userId;
     private String content;
-    private Date createAt;
+    private Long createAt;
     private boolean active;
     private String type;
     private String postId;

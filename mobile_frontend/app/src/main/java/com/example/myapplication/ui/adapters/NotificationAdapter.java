@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.convert.DateConvert;
+import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.model.Notification;
 
 import java.util.List;
@@ -51,10 +54,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
         Notification noti = listNoti.get(position);
         if (noti == null) return;
-        holder.imgUser.setImageResource(noti.avartar());
+        ImageView imageView = holder.imgUser;
+        imageView.setImageBitmap(ImageConvert.base64ToBitMap(noti.getAvatar()));
         holder.tvContent.setText(noti.getContent());
         holder.tvName.setText(noti.getName());
-        holder.tvDate.setText(noti.getDateString());
+        holder.tvDate.setText(DateConvert.convertToString(noti.getCreatedAt().getTime()));
         if(!noti.isActive()) holder.relativeLayout.setBackgroundResource(R.drawable.background_drawable);
 
     }

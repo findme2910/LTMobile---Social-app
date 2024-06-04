@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.myapplication.R;
+import com.example.myapplication.convert.DateConvert;
 import com.example.myapplication.model.Notification;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Notification.NotificationManager;
@@ -95,8 +96,8 @@ public class NotificationActivity extends AppCompatActivity {
                 List<Notification> notificationsLater = new ArrayList<>();
 
                 for (NotificationDTO dto : notificationDTOS) {
-                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), dto.getCreateAt(),dto.isActive());
-                    if (isToday(dto.getCreateAt())) {
+                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), new Date(dto.getCreateAt()),dto.isActive());
+                    if (isToday(new Date(dto.getCreateAt()))) {
                         notificationsToday.add(notification);
                     } else {
                         notificationsLater.add(notification);
