@@ -10,18 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.Friend;
-import com.example.myapplication.model.FriendRequestModel;
+import com.example.myapplication.convert.DateConvert;
+import com.example.myapplication.convert.ImageConvert;
+import com.example.myapplication.network.api.HandleListener;
+import com.example.myapplication.network.api.Profile.ProfileManager;
+import com.example.myapplication.network.model.dto.FriendViewDTO;
+import com.example.myapplication.network.model.dto.ProfileDTO;
 import com.example.myapplication.ui.adapters.FriendsListAdapter;
+import com.example.myapplication.ui.adapters.ProfileAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FriendsListActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewAllFriendList;
     private FriendsListAdapter friendsListAdapter;
-    private List<Friend> friends;
+    private List<FriendViewDTO> friends;
     private ImageView backButton;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,23 +43,30 @@ public class FriendsListActivity extends AppCompatActivity {
         });
 
         friends = new ArrayList<>();
+        recyclerViewAllFriendList = findViewById(R.id.list_add_friend);
+        recyclerViewAllFriendList.setLayoutManager(new LinearLayoutManager(this));
 
-        friends.add(new Friend(1, "Hoai Thuong", "base64_string_of_avatar"));
-        friends.add(new Friend(2, "Quang Huy", "base64_string_of_avatar"));
-        friends.add(new Friend(3, "Thai Son", "base64_string_of_avatar"));
-        friends.add(new Friend(4, "Huu Nhan", "base64_string_of_avatar"));
-        friends.add(new Friend(5, "Hoai Nam", "base64_string_of_avatar"));
+    }
 
-        // Thêm dữ liệu giả vào RecyclerView
-        recyclerView = findViewById(R.id.list_add_friend);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        friendsListAdapter = new FriendsListAdapter(this, friends);
-        recyclerView.setAdapter(friendsListAdapter);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ProfileManager profileManager = new ProfileManager();
+        profileManager.getProfile(new HandleListener<ProfileDTO>() {
+            @Override
+            public void onSuccess(ProfileDTO profileDTO) {
+                friends = profileDTO.getFriends();
 
+                friendsListAdapter = new FriendsListAdapter(getApplicationContext(), friends);
+                recyclerViewAllFriendList.setAdapter(friendsListAdapter);
 
+//                countFriend.setText(String.valueOf(friends.size()));
+            }
 
+            @Override
+            public void onFailure(String errorMessage) {
 
-
-
+            }
+        });
     }
 }

@@ -16,10 +16,9 @@
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
+
         <activity
-            android:name=".ui.activities.ProfileActivity"/>
-        <activity
-            android:name=".ui.activities.NotificationActivity">
+            android:name=".ui.activities.ProfileActivity">
         </activity>
         <activity android:name=".ui.activities.MainActivity" android:exported="true">
             <intent-filter>

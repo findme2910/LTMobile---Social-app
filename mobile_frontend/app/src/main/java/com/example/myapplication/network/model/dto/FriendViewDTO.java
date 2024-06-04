@@ -1,4 +1,4 @@
-package com.example.myapplication.model;
+package com.example.myapplication.network.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Friend {
-    private int id;
-    private String name;
+public class FriendViewDTO {
+    private int userId;
     private String avatar;
+    private String name;
 }

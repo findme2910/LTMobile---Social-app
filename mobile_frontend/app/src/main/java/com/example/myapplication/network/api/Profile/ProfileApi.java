@@ -20,7 +20,7 @@ public interface ProfileApi {
 //    @GET("/profile/{id}")
 //    Call<ProfileDTO> getProfileForUser(@Header("Authorization") String token, @Path("id") int userId);
 
-//    @POST("/profile/updateAvatar")
-//    Call<ResponseDTO> rejectAddFriend(@Body UpdateAvatarDTO updateAvatar  , @Header("Authorization") String token);
+    @POST("/profile/updateAvatar")
+    Call<ResponseDTO> updateAvatar(@Body UpdateAvatarDTO updateAvatar  , @Header("Authorization") String token);
 
 }

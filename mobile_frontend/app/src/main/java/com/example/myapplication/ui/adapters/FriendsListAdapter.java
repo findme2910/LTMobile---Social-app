@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.convert.ImageConvert;
-import com.example.myapplication.model.Friend;
-import com.example.myapplication.model.FriendRequestModel;
-import com.example.myapplication.ui.activities.FriendsListActivity;
+import com.example.myapplication.network.model.dto.FriendViewDTO;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,9 +25,9 @@ import lombok.Setter;
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<Friend> friends;
+    private List<FriendViewDTO> friends;
 
-    public FriendsListAdapter(Context context, List<Friend> friendList) {
+    public FriendsListAdapter(Context context, List<FriendViewDTO> friendList) {
         mContext = context;
         friends = friendList;
     }
@@ -47,12 +44,12 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Friend friend = friends.get(position);
+        FriendViewDTO friend = friends.get(position);
         holder.nameTextView.setText(friend.getName());
 
-        // Hiển thị hình ảnh trong ImageView
-//        ImageView imageView = holder.avatarImageView;
-//        imageView.setImageBitmap(ImageConvert.base64ToBitMap(friend.getAvatar()));
+//         Hiển thị hình ảnh trong ImageView
+        ImageView imageView = holder.avatarImageView;
+        imageView.setImageBitmap(ImageConvert.base64ToBitMap(friend.getAvatar()));
     }
 
     @Override

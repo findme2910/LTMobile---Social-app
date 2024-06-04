@@ -2,6 +2,7 @@ package com.example.myapplication.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -53,3 +54,5 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
+//0854705932

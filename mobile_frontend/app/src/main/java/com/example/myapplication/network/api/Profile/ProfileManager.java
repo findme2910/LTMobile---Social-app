@@ -3,6 +3,8 @@ package com.example.myapplication.network.api.Profile;
 import com.example.myapplication.network.api.ApiClient;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.model.dto.ProfileDTO;
+import com.example.myapplication.network.model.dto.ResponseDTO;
+import com.example.myapplication.network.model.dto.UpdateAvatarDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
 
 import java.util.List;
@@ -31,5 +33,7 @@ public class ProfileManager {
             }
         });
     }
+    public void updateAvatar(UpdateAvatarDTO updateAvatarDTO, HandleListener<String> handleListener) {
 
+    }
 }

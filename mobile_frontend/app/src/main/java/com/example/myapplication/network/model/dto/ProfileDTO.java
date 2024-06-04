@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class ProfileDTO {
     private int userId;
     private String name;
-    private String birth;
+    private long birth;
     private String avatar;
     private boolean own;
-
+    private List<FriendViewDTO> friends;
 }
