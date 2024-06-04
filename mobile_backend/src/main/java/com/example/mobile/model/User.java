@@ -48,9 +48,6 @@ public class User implements UserDetails {
 	private List<Comment> comments;
 	@OneToMany
 	@JsonManagedReference
-	private List<Like> likes;
-	@OneToMany
-	@JsonManagedReference
 	private List<Post> posts;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
 	private List<User> friends;

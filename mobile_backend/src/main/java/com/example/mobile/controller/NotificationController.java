@@ -2,10 +2,7 @@ package com.example.mobile.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.mobile.dto.RequestNotificationDTO;
 import com.example.mobile.mapper.UserMapper;
@@ -21,7 +18,7 @@ public class NotificationController {
 
 	//Đây là http get ra thông báo
 	@GetMapping
-	public ResponseEntity<?> getNotifications(@RequestParam RequestNotificationDTO dto) {
+	public ResponseEntity<?> getNotifications(@ModelAttribute RequestNotificationDTO dto) {
 		// trả về một responEntity.ok là trạng thái 200 và phần thân phản hồi được truyền vào bên trong
 		return ResponseEntity
 				// gọi thông báo getNotis ừ notificationSevice và chuyển danh sách thông báo thành luồng stream để thực hiện cho việc biến dổi

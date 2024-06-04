@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "t_like")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

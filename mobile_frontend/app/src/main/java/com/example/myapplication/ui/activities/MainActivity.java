@@ -2,6 +2,7 @@ package com.example.myapplication.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -40,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginSuccess(String token) {
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
-                        Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
+                        Intent i = new Intent(getApplicationContext(), NotificationActivity.class);
                         startActivity(i);
+                        Log.d("activityNotification","start");
                     }
                     @Override
                     public void onLoginFailure(String errorMessage) {

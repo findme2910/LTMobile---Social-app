@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.example.myapplication.model.Notification;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Notification.NotificationManager;
 import com.example.myapplication.network.model.dto.NotificationDTO;
+import com.example.myapplication.network.model.dto.RequestNotificationDTO;
 import com.example.myapplication.ui.adapters.NotificationAdapter;
 
 import java.util.ArrayList;
@@ -37,10 +39,14 @@ public class NotificationActivity extends AppCompatActivity {
     private boolean isLoading = false; // biến cờ
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        Log.d("NotificationActivity", "onCreate started");
         setContentView(R.layout.activity_notification);
         notiAdaptertoDay = new NotificationAdapter(this);
         notiAdapterlater = new NotificationAdapter(this);
+
+
         //set adapter cho hôm nay
         LinearLayoutManager linearLayoutManagerToday = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcvNotiToday =findViewById(R.id.rv_items_today);
@@ -89,14 +95,15 @@ public class NotificationActivity extends AppCompatActivity {
 
     private void requestNotification(int next) {
         NotificationManager notificationManager = new NotificationManager();
-        notificationManager.requestNotification(next, new HandleListener<List<NotificationDTO>>() {
+        RequestNotificationDTO dto = new RequestNotificationDTO(next);
+        notificationManager.requestNotification(dto, new HandleListener<List<NotificationDTO>>() {
             @Override
             public void onSuccess(List<NotificationDTO> notificationDTOS) {
                 List<Notification> notificationsToday = new ArrayList<>();
                 List<Notification> notificationsLater = new ArrayList<>();
 
                 for (NotificationDTO dto : notificationDTOS) {
-                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), new Date(dto.getCreateAt()),dto.isActive());
+                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), new Date(dto.getCreateAt()),true);
                     if (isToday(new Date(dto.getCreateAt()))) {
                         notificationsToday.add(notification);
                     } else {
