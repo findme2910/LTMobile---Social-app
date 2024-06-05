@@ -4,7 +4,7 @@ import org.springframework.util.AntPathMatcher;
 
 public class PathConfig {
 	public static String[] getPathPermitAll() {
-		return new String[] { "/", "/user", "/auth/login", "/product/type", "/register/**", "/verification/**",
+		return new String[] { "/", "/auth/login", "/product/type", "/register/**", "/verification/**",
 				"/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**" };
 	}
 

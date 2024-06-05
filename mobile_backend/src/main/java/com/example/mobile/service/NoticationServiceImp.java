@@ -55,7 +55,10 @@ public class NoticationServiceImp implements NotificationService {
 	@Override
 	public List<Notification> getNotis(RequestNotificationDTO dto) {
 		// TODO Auto-generated method stub
+		User curr = authStaticService.currentUser();
 		List<Notification> notifications = authStaticService.currentUser().getNotifications();
+		curr.setCurrentNoti(curr.getNotifications().size());
+		userRepository.save(curr);
 		if (dto.getNext() * 10 >= notifications.size())
 			return null;
 		return authStaticService.currentUser().getNotifications().subList(dto.getNext() * 10,

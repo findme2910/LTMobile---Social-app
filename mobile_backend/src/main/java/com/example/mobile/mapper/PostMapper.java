@@ -1,6 +1,7 @@
 package com.example.mobile.mapper;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,9 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import com.example.mobile.config.ConvertFile;
+import com.example.mobile.dto.CommentViewDTO;
 import com.example.mobile.dto.PostViewDTO;
+import com.example.mobile.model.Comment;
 import com.example.mobile.model.Post;
 
 @Mapper(componentModel = "spring")
@@ -26,6 +29,7 @@ public abstract class PostMapper {
 	@Mapping(expression = "java(post.getLikes().size())", target = "numberLike")
 	@Mapping(expression = "java(post.getComments().size())", target = "numberComment")
 	@Mapping(source = "createAt", target = "createAt", qualifiedByName = "dateToMillis")
+	@Mapping(source = "user.name", target = "name")
 	public abstract PostViewDTO entityToViewPostDTO(Post post);
 
 	@Named("dateToMillis")
@@ -36,5 +40,25 @@ public abstract class PostMapper {
 	@Named("blobToString")
 	public String blodToString(Blob blob) {
 		return ConvertFile.toString(blob);
+	}
+	@Mapping(source = "id" , target = "commentId")
+	@Mapping(source = "user.avatar" , target = "avatar" , qualifiedByName = "blobToString")
+	@Mapping(source = "user.name", target = "name")
+	@Mapping(source = "replys", target = "replys" , qualifiedByName = "toListReply")
+	@Mapping(source = "createAt", target = "createAt", qualifiedByName = "dateToMillis")
+	public abstract CommentViewDTO entityToCommentViewDTO(Comment comment);
+	@Named("toListReply")
+	public List<CommentViewDTO> entitysToListReply(List<Comment> comments){
+		List<CommentViewDTO> result = new ArrayList<>();
+		for(var x : comments) {
+			result.add(CommentViewDTO.builder()
+					.commentId(x.getId())
+					.avatar(blodToString(x.getUser().getAvatar()))
+					.name(x.getUser().getName())
+					.content(x.getContent())
+					.createAt(dateToMillis(x.getCreateAt()))
+					.build());
+		}
+		return result;
 	}
 }
