@@ -1,31 +1,30 @@
-package com.example.myapplication.ui.activities;
+package com.example.myapplication.ui.fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Post;
 import com.example.myapplication.network.api.HandleListener;
-import com.example.myapplication.network.api.Home.HomeManager;
 import com.example.myapplication.network.api.Post.PostManager;
-import com.example.myapplication.network.model.dto.HomeViewDTO;
 import com.example.myapplication.network.model.dto.PostViewDTO;
+import com.example.myapplication.ui.activities.HomeActivity;
 import com.example.myapplication.ui.adapters.PostAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class HomeActivity extends FragmentActivity {
-    private ImageButton home, friend, noti, logout;
+
+public class HomeFragment extends Fragment {
+
     private TextView numberAddFriend, numberOfNoti;
     private RecyclerView postsRecyclerView;
 
@@ -33,46 +32,25 @@ public class HomeActivity extends FragmentActivity {
     private PostAdapter postAdapter;
 
     private SwipeRefreshLayout homeRefresh;
+    public HomeFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
 
-        home = findViewById(R.id.home_button);
-        friend = findViewById(R.id.addFriend_button);
-        noti = findViewById(R.id.notification_button);
-        logout = findViewById(R.id.logout_button);
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_home, container, false);
 
-        numberAddFriend = findViewById(R.id.badge_addfriend);
-        numberOfNoti = findViewById(R.id.badge_noti);
+        postsRecyclerView = view.findViewById(R.id.list_post);
+        postsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        postsRecyclerView = findViewById(R.id.list_post);
-        postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        home = findViewById(R.id.home_button);
-        noti = findViewById(R.id.notification_button);
-        friend = findViewById(R.id.addFriend_button);
-        logout = findViewById(R.id.logout_button);
-
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(i);
-            }
-        });
-        friend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), AddFriendActivity.class);
-                startActivity(i);
-            }
-        });
-
-        homeRefresh = findViewById(R.id.swipe_refresh_home);
-
-
+        homeRefresh = view.findViewById(R.id.swipe_refresh_home);
 
         homeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -82,37 +60,9 @@ public class HomeActivity extends FragmentActivity {
         });
         posts = new ArrayList<>();
 
-
-
-
-        HomeManager homeManager = new HomeManager();
-        homeManager.getHomeView(new HandleListener<HomeViewDTO>() {
-            @Override
-            public void onSuccess(HomeViewDTO homeViewDTO) {
-                if(homeViewDTO.getNumberNoti() == 0){
-                    numberOfNoti.setText("");
-                }
-                else{
-                    numberOfNoti.setText(homeViewDTO.getNumberNoti()+"");
-                }
-                if(homeViewDTO.getNumberAddFriend() == 0){
-                    numberAddFriend.setText("");
-                }
-                else{
-                    numberAddFriend.setText(homeViewDTO.getNumberAddFriend()+"");
-                }
-
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-
-            }
-        });
-
         new ApiCallTask().execute();
+        return view;
     }
-
     private class ApiCallTask extends AsyncTask<Void, Void, List<PostViewDTO>> {
         private final Semaphore semaphore = new Semaphore(0);
 
