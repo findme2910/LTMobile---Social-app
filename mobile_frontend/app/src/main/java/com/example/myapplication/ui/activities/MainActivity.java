@@ -2,6 +2,7 @@ package com.example.myapplication.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -41,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginSuccess(String token) {
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
-                        Intent i = new Intent(getApplicationContext(), NotificationActivity.class);
+                        //lấy ra tên, lấy ra avt
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", username);
+                        editor.putString("avatarUrl", "");
+                        editor.apply();
+                        Intent i = new Intent(getApplicationContext(), CommentsActivity.class);
                         startActivity(i);
                         Log.d("activityNotification","start");
                     }

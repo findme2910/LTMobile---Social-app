@@ -21,6 +21,9 @@
         <activity
                 android:name=".ui.activities.NotificationActivity">
         </activity>
+        <activity
+            android:name=".ui.activities.CommentsActivity"/>
+
         <activity android:name=".ui.activities.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

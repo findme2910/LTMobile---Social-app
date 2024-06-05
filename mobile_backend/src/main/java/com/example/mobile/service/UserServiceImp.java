@@ -80,6 +80,8 @@ public class UserServiceImp implements UserService {
 		userRepository.save(u);
 	}
 
+
+
 	@Override
 	public String login(LoginDTO loginDTO) throws Exception {
 		User user = userRepository.findByPhone(loginDTO.phone);
@@ -124,6 +126,7 @@ public class UserServiceImp implements UserService {
 		post.getComments().add(comment);
 		commentRepository.save(comment);
 	}
+
 
 //	@Override
 //	public void update(UserUpdateDTO dto) throws Exception {
