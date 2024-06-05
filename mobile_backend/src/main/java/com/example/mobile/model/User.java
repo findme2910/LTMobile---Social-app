@@ -57,6 +57,8 @@ public class User implements UserDetails {
 	private List<FriendRequest> friendRequests;
 	@OneToMany
 	private List<Notification> notifications;
+	
+	private int currentNoti;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

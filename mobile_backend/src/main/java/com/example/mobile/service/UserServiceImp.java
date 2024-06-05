@@ -17,9 +17,11 @@ import com.example.mobile.config.DefaultSource;
 import com.example.mobile.config.security.JwtUtils;
 import com.example.mobile.dto.CommentDTO;
 import com.example.mobile.dto.FriendRequestDTO;
+import com.example.mobile.dto.HomeViewDTO;
 import com.example.mobile.dto.LikeDTO;
 import com.example.mobile.dto.LoginDTO;
 import com.example.mobile.dto.RegisterDTO;
+import com.example.mobile.dto.ReplyCommentDTO;
 import com.example.mobile.dto.UpdateAvatarDTO;
 import com.example.mobile.model.Comment;
 import com.example.mobile.model.FriendRequest;
@@ -46,7 +48,7 @@ public class UserServiceImp implements UserService {
 	PostRepository postRepository;
 	@Autowired
 	AuthStaticService authStaticService;
-	@Autowired
+
 	NotificationService notificationService;
 	@Autowired
 	LikeRepository likeRepository;
@@ -100,7 +102,6 @@ public class UserServiceImp implements UserService {
 		User u = authStaticService.currentUser();
 		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
 		Like like = likeRepository.findByUser_IdAndPost_Id(u.getId(), dto.getPostId());
-		System.out.println(like != null);
 		if (like != null) {
 			Iterator<Like> it = post.getLikes().iterator();
 			while (it.hasNext()) {
@@ -108,6 +109,7 @@ public class UserServiceImp implements UserService {
 					it.remove();
 			}
 			postRepository.save(post);
+			likeRepository.delete(like);
 		} else {
 			User user = authStaticService.currentUser();
 			like = Like.builder().user(user).post(post).createAt(new Date()).build();
@@ -276,4 +278,29 @@ public class UserServiceImp implements UserService {
 		user.setAvatar(ConvertFile.toBlob(dto.getAvatar()));
 		userRepository.save(user);
 	}
+
+	@Override
+	public HomeViewDTO getHomeView() {
+		User u = authStaticService.currentUser();
+
+		return HomeViewDTO.builder().numberAddFriend(u.getFriendRequests().size())
+				.numberNoti(u.getNotifications().size() - u.getCurrentNoti()).build();
+	}
+
+	@Override
+	public void replyComment(ReplyCommentDTO dto) {
+		User curr = authStaticService.currentUser();
+		Comment comment = Comment.builder().user(curr).content(dto.getContent()).build();
+		Comment addTo = commentRepository.findById(dto.getCommentId()).get();
+		addTo.getReplys().add(comment);
+		commentRepository.save(comment);
+		commentRepository.save(addTo);
+	}
+
+	@Override
+	public List<Comment> getComments(int postId) {
+		return postRepository.findById(postId).get().getComments();
+	}
+
+	
 }

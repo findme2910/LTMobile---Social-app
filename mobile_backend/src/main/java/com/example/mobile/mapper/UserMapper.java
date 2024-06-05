@@ -15,6 +15,7 @@ import com.example.mobile.dto.FriendViewDTO;
 import com.example.mobile.dto.FriendViewRequestDTO;
 import com.example.mobile.dto.NotificationDTO;
 import com.example.mobile.dto.ProfileDTO;
+import com.example.mobile.dto.UserInformationDTO;
 import com.example.mobile.model.FriendRequest;
 import com.example.mobile.model.Notification;
 import com.example.mobile.model.User;
@@ -78,6 +79,10 @@ public abstract class UserMapper {
 		}
 		return list;
 	}
+	@Mapping(source = "name", target = "name")
+	@Mapping(source = "id", target = "userId")
+	@Mapping(source = "avatar", target = "avatar", qualifiedByName = "blobToString")
+	public abstract UserInformationDTO entityToUserInformationDTO(User user);
 
 	@Named("dateToMillis")
 	public long dateToMillis(Date date) {

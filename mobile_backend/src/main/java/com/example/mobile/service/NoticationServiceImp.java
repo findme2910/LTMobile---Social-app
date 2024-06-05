@@ -74,11 +74,15 @@ public class NoticationServiceImp implements NotificationService {
 	@Override
 	public List<Notification> getNotis(RequestNotificationDTO dto) {
 		// TODO Auto-generated method stub
-		//lấy hết tất cả notification trong một user ra
+
+		User curr = authStaticService.currentUser();
 		List<Notification> notifications = authStaticService.currentUser().getNotifications();
-		int startIndex = dto.getNext() * 10; //sau đó lấy ra số lượng thông báo cho từng trang
-		if (startIndex >= notifications.size()) return new ArrayList<>();
-		int endIndex = Math.min(startIndex + 10, notifications.size());
-		return notifications.subList(startIndex, endIndex);
+		curr.setCurrentNoti(curr.getNotifications().size());
+		userRepository.save(curr);
+		if (dto.getNext() * 10 >= notifications.size())
+			return null;
+		return authStaticService.currentUser().getNotifications().subList(dto.getNext() * 10,
+				Math.min(dto.getNext() * 10 + 10, notifications.size()));
+
 	}
 }

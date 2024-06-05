@@ -17,20 +17,23 @@
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
         <activity
-                android:name=".ui.activities.AddFriendActivity"/>
-        <activity
-                android:name=".ui.activities.NotificationActivity">
+                android:name=".ui.activities.HomeActivity"
+                android:exported="false"/>
+        <activity android:name=".ui.activities.AddFriendActivity"/>
+        <activity android:name=".ui.activities.NotificationActivity">
         </activity>
         <activity
+
             android:name=".ui.activities.CommentsActivity"/>
 
         <activity android:name=".ui.activities.MainActivity" android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

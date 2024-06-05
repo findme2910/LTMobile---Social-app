@@ -10,7 +10,10 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.myapplication.R;
+import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.LoginManager;
+import com.example.myapplication.network.api.User.UserManager;
+import com.example.myapplication.network.model.dto.UserInformationDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,15 +45,31 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginSuccess(String token) {
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
-                        //lấy ra tên, lấy ra avt
-                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", username);
-                        editor.putString("avatarUrl", "");
-                        editor.apply();
-                        Intent i = new Intent(getApplicationContext(), CommentsActivity.class);
-                        startActivity(i);
-                        Log.d("activityNotification","start");
+                        // Gọi API lấy ra thông tin người dùng
+                        UserManager.getProfileUser(new HandleListener<UserInformationDTO>() {
+                            @Override
+                            public void onSuccess(UserInformationDTO userInformationDTO) {
+                                // Lưu thông tin người dùng vào sharedPreferences
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", userInformationDTO.getName());
+                                editor.putString("avatarUrl", userInformationDTO.getAvatar());
+                                editor.putInt("iduser", userInformationDTO.getUserId());
+                                editor.apply();
+
+                                //Chuyển sang homeActivity
+                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onFailure(String errorMessage) {
+                                Log.e("UserInfo", "Error: " + errorMessage);
+                            }
+                        });
+
+
+
                     }
                     @Override
                     public void onLoginFailure(String errorMessage) {
