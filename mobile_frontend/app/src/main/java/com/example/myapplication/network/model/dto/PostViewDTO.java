@@ -1,4 +1,4 @@
-package com.example.mobile.dto;
+package com.example.myapplication.network.model.dto;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class PostViewDTO {
 	private String image;
 	private String content;
 	// thuộc tính này thể hiện người dùng đã like hay chưa like cái Post này hay không
-	private boolean isLiked;
+	private boolean liked;
 	private int numberLike;
 	private int numberComment;
 	private long createAt;

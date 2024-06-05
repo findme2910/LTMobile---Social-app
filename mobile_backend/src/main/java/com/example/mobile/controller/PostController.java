@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.example.mobile.dto.AddPostDTO;
 import com.example.mobile.dto.CommentDTO;
 import com.example.mobile.dto.LikeDTO;
 import com.example.mobile.dto.PostViewDTO;
+import com.example.mobile.dto.ReplyCommentDTO;
 import com.example.mobile.dto.ResponseDTO;
 import com.example.mobile.mapper.PostMapper;
 import com.example.mobile.model.Post;
@@ -39,6 +41,7 @@ public class PostController {
 			return ResponseEntity.ok(new ResponseDTO("Success"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
 		}
 
@@ -83,6 +86,30 @@ public class PostController {
 			return ResponseEntity.ok(new ResponseDTO("Success"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
+		}
+	}
+
+	@PostMapping("/reply")
+	public ResponseEntity<?> comment(@RequestBody ReplyCommentDTO dto) {
+		try {
+			userService.replyComment(dto);
+			return ResponseEntity.ok(new ResponseDTO("Success"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
+		}
+	}
+
+	@GetMapping("/comment/{postId}")
+	public ResponseEntity<?> getComments(@PathVariable int postId) {
+		try {
+			return ResponseEntity
+					.ok(userService.getComments(postId).stream().map(PostMapper.INSTANCE::entityToCommentViewDTO));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
 		}
 	}
