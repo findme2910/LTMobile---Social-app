@@ -6,26 +6,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activities.TestActivity">
-
     <FrameLayout
-            android:layout_width="409dp"
-            android:layout_height="673dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="2dp" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/create_post"
+            app:layout_constraintHorizontal_bias="0.0"
             android:id="@+id/frameLayout">
 
     </FrameLayout>
+    <LinearLayout
+            android:id="@+id/create_post"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/border"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/post_user_avatar"
+                android:src="@drawable/ic_launcher_background"
+                app:civ_border_color="#FFFFFF"
+                android:layout_marginStart="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+        />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Bạn đang nghĩ gì ?"
+                  android:layout_gravity="center|center_vertical"
+                  android:layout_marginStart="20dp"
+        />
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:background="@drawable/ic_friends"
+                   android:layout_marginStart="150dp"
+                   android:layout_gravity="end|center_vertical"
+        />
+    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/bottomNavigationView"
             android:background="#FFFFFF"
             app:itemTextColor="#000000"
             app:itemIconTint="#000000"
-            app:layout_constraintHorizontal_bias="0.0"
             app:menu="@menu/bottom_menu"
     />
 </androidx.constraintlayout.widget.ConstraintLayout>
