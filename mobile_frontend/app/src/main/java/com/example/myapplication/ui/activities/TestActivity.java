@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.activities;
 
+import android.content.Intent;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +11,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.fragment.CommentsFragment;
+import com.example.myapplication.ui.fragment.AddFriendFragment;
 import com.example.myapplication.ui.fragment.HomeFragment;
 import com.example.myapplication.ui.fragment.NotificationFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TestActivity extends AppCompatActivity {
+    private LinearLayout createPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,29 +25,50 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
         final Fragment homeFragment = new HomeFragment();
+
         //test
         final Fragment commentFragment = new CommentsFragment();
         final Fragment notificationFragment = new NotificationFragment();
+
+        final Fragment friendFragment = new AddFriendFragment();
+
+        createPost = findViewById(R.id.create_post);
+
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
+        createPost.setOnClickListener(n -> {
+            Intent intent = new Intent(getApplicationContext(), CreatePostActivity.class);
+            startActivity(intent);
+        });
         bottomNavigationView.setOnItemSelectedListener(item -> {
-                // Xác định fragment tương ứng với mục được chọn
+            // Xác định fragment tương ứng với mục được chọn
             if (item.getItemId() == R.id.navigation_home) {
                 replaceFragment(homeFragment);
             }
+
             if (item.getItemId() == R.id.navigation_notification) {
                 replaceFragment(notificationFragment);
             }
 
-                return true;
+            if (item.getItemId() == R.id.navigation_friends) {
+                replaceFragment(friendFragment);
+            }
+            if (item.getItemId() == R.id.navigation_profile) {
+
+            }
+            if (item.getItemId() == R.id.navigation_logout) {
+                finish();
+            }
+            return true;
         });
     }
-    public void replaceFragment(Fragment fragment){
+
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout,fragment);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
 }

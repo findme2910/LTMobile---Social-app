@@ -48,7 +48,7 @@ public class UserServiceImp implements UserService {
 	PostRepository postRepository;
 	@Autowired
 	AuthStaticService authStaticService;
-
+	@Autowired
 	NotificationService notificationService;
 	@Autowired
 	LikeRepository likeRepository;
@@ -114,6 +114,7 @@ public class UserServiceImp implements UserService {
 			User user = authStaticService.currentUser();
 			like = Like.builder().user(user).post(post).createAt(new Date()).build();
 			post.getLikes().add(like);
+			notificationService.likeNoti(post);
 			postRepository.save(post);
 		}
 	}
@@ -122,7 +123,7 @@ public class UserServiceImp implements UserService {
 	public void comment(CommentDTO dto) throws Exception {
 		User user = authStaticService.currentUser();
 		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
-
+		notificationService.commentNoti(post);
 		Comment comment = Comment.builder().user(user).post(post).content(dto.getContent()).updateAt(new Date())
 				.createAt(new Date()).build();
 		post.getComments().add(comment);
@@ -177,16 +178,15 @@ public class UserServiceImp implements UserService {
 		Iterator<FriendRequest> it = friendRequests.iterator();
 		User accept = null;
 		try {
-
 			while (it.hasNext()) {
 				FriendRequest friendRequest = it.next();
-
 				accept = userRepository.findById(friendRequest.getFromUser().getId()).get();
 				if (accept.getId() == dto.getUserId()) {
 					user.getFriends().add(accept);
 					accept.getFriends().add(user);
 					it.remove();
 					userRepository.save(user);
+					notificationService.acceptionAddFriend(accept);
 					friendRequestRepository.deleteById(friendRequest.getId());
 					return;
 
@@ -302,5 +302,4 @@ public class UserServiceImp implements UserService {
 		return postRepository.findById(postId).get().getComments();
 	}
 
-	
 }

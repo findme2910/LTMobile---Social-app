@@ -7,6 +7,12 @@
             android:icon="@drawable/ic_home"
             app:actionLayout="@layout/menu_item_layout"
     />
+    <item
+            android:id="@+id/navigation_profile"
+            android:title="Profile"
+            android:icon="@drawable/profile"
+            app:actionLayout="@layout/menu_item_layout"
+    />
 
     <item
             android:id="@+id/navigation_friends"
