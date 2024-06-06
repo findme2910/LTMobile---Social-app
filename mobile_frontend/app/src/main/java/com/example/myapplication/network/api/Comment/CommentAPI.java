@@ -2,6 +2,7 @@ package com.example.myapplication.network.api.Comment;
 
 import com.example.myapplication.network.model.dto.CommentDTO;
 import com.example.myapplication.network.model.dto.CommentViewDTO;
+import com.example.myapplication.network.model.dto.ReplyCommentDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import retrofit2.http.Path;
 public interface CommentAPI {
     @POST("/user/comment")
     Call<ResponseDTO> addComment(@Body CommentDTO dto, @Header("Authorization") String token);
+    @POST("/post/reply")
+    Call<ResponseDTO> replyComment(@Body ReplyCommentDTO replyCommentDTO, @Header("Authorization") String token);
     @GET("/post/comment/{postId}")
     Call<List<CommentViewDTO>> getComments(@Path("postId") int postId, @Header("Authorization") String token);
 }

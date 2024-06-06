@@ -63,6 +63,7 @@ public class CommentsActivity extends AppCompatActivity {
             public void onSuccess(List<CommentViewDTO> commentViewDTOS) {
                 for (CommentViewDTO v1 : commentViewDTOS) {
                     Comment comment = new Comment(
+                            v1.getCommentId(),
                             v1.getName(),
                             v1.getContent(),
                             v1.getAvatar(),
@@ -118,6 +119,7 @@ public class CommentsActivity extends AppCompatActivity {
         if (replyDTOs != null) {
             for (CommentViewDTO dto : replyDTOs) {
                 Comment comment = new Comment(
+                        dto.getCommentId(),
                         dto.getName(),
                         dto.getContent(),
                         dto.getAvatar(),

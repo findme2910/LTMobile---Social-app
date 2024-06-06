@@ -2,6 +2,7 @@ package com.example.myapplication.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvert;
@@ -18,6 +20,7 @@ import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Post.PostManager;
 import com.example.myapplication.network.model.dto.LikeDTO;
 import com.example.myapplication.ui.activities.CommentsActivity;
+import com.example.myapplication.ui.fragment.CommentsFragment;
 
 import lombok.Data;
 import lombok.Getter;
@@ -57,9 +60,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         //handle Comment
         holder.postComment.setOnClickListener(view -> {
             Context context = view.getContext();
-            Intent intent = new Intent(context, CommentsActivity.class);
-            intent.putExtra("postID", post.getPostId());
-            context.startActivity(intent);
+            if (context instanceof FragmentActivity) {
+                FragmentActivity activity = (FragmentActivity) context;
+                CommentsFragment commentsFragment = new CommentsFragment();
+                Bundle args = new Bundle();
+                args.putInt("postID", post.getPostId());
+                commentsFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, commentsFragment) // id của trang home
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
 
 
@@ -130,4 +141,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             postComment = itemView.findViewById(R.id.post_comment);
         }
     }
+
+
 }

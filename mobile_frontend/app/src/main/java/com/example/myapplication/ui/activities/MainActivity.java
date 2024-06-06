@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginSuccess(String token) {
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
+
                         // Gọi API lấy ra thông tin người dùng
                         UserManager.getProfileUser(new HandleListener<UserInformationDTO>() {
                             @Override
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                                 editor.apply();
 
                                 //Chuyển sang homeActivity
-                                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
                                 startActivity(i);
                             }
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e("UserInfo", "Error: " + errorMessage);
                             }
                         });
+
 
 
 

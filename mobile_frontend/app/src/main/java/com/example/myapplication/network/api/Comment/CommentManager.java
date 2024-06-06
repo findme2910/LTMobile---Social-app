@@ -7,6 +7,7 @@ import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.model.dto.CommentDTO;
 import com.example.myapplication.network.model.dto.CommentViewDTO;
 import com.example.myapplication.network.model.dto.FriendRequest;
+import com.example.myapplication.network.model.dto.ReplyCommentDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
 
@@ -57,6 +58,28 @@ public class CommentManager {
 
             @Override
             public void onFailure(Call<List<CommentViewDTO>> call, Throwable t) {
+                handleListener.onFailure("Failure: " + t.getMessage());
+            }
+        });
+    }
+    public void addreplyComment(int commentId, String content, HandleListener<String> handleListener) {
+        CommentAPI apiService = ApiClient.getRetrofitInstance().create(CommentAPI.class);
+        String token = JwtTokenManager.getInstance().getToken();
+        ReplyCommentDTO replyCommentDTO = new ReplyCommentDTO(commentId, content);
+        Call<ResponseDTO> call = apiService.replyComment(replyCommentDTO, "Bearer " + token);
+
+        call.enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    handleListener.onSuccess("Success");
+                } else {
+                    handleListener.onFailure("Failed to reply comment: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 handleListener.onFailure("Failure: " + t.getMessage());
             }
         });

@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.adapters.comment;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.model.Comment.Comment;
 import com.example.myapplication.network.api.Comment.CommentManager;
 import com.example.myapplication.network.api.HandleListener;
+import com.example.myapplication.ui.fragment.CommentsFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,19 +56,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         // Handle reply click
         holder.textViewReply.setOnClickListener(v -> {
             holder.replyInputLayout.setVisibility(View.VISIBLE);
+            holder.editTextReply.requestFocus();
         });
+
+        // Handle reply input losing focus
+        holder.editTextReply.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                holder.replyInputLayout.setVisibility(View.GONE);
+            }
+        });
+
 
         holder.buttonSendReply.setOnClickListener(v -> {
             String replyText = holder.editTextReply.getText().toString().trim();
             if (!replyText.isEmpty()) {
                 // Gửi câu trả lời mới lên server
                 CommentManager commentManager = new CommentManager();
-                commentManager.addComment(comment.getPostID(), replyText, new HandleListener<String>() {
+                commentManager.addreplyComment(comment.getCommentId(), replyText, new HandleListener<String>() {
                     @Override
                     public void onSuccess(String result) {
                         Calendar calendar = Calendar.getInstance();
                         // Thêm câu trả lời vào danh sách câu trả lời và cập nhật giao diện
-                        Comment replyComment = new Comment("New User", replyText, "", calendar.getTime(), comment.getPostID(),new ArrayList<>());
+                        Comment replyComment = new Comment(comment.getUserName(), replyText, comment.getAvatar(), calendar.getTime(), comment.getPostID(), new ArrayList<>());
                         comment.getReplies().add(replyComment);
                         notifyItemChanged(adapterPosition);
                         holder.editTextReply.setText(""); // Xóa văn bản sau khi gửi câu trả lời
@@ -81,6 +92,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 });
             }
         });
+
 
         // Display replies
         if (comment.getReplies().isEmpty()) {
