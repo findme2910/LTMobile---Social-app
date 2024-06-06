@@ -22,14 +22,22 @@ public class NoticationServiceImp implements NotificationService {
 
 	@Override
 	public void likeNoti(Post to) {
-		// TODO Auto-generated method stub
-
+		User currUser = authStaticService.currentUser();
+		Notification notification = Notification.builder().trigger(currUser).content("Đã thích bài viết của bạn")
+				.post(to).build();
+		to.getUser().getNotifications().add(notification);
+		notificationRepository.save(notification);
+		userRepository.save(to.getUser());
 	}
 
 	@Override
-	public void commentNoti(Post post) {
-		// TODO Auto-generated method stub
-
+	public void commentNoti(Post to) {
+		User currUser = authStaticService.currentUser();
+		Notification notification = Notification.builder().trigger(currUser).content("Đã bình luận bài viết của bạn")
+				.post(to).build();
+		to.getUser().getNotifications().add(notification);
+		notificationRepository.save(notification);
+		userRepository.save(to.getUser());
 	}
 
 	@Override
@@ -46,7 +54,6 @@ public class NoticationServiceImp implements NotificationService {
 		User currUser = authStaticService.currentUser();
 		Notification notification = Notification.builder().trigger(currUser).content("Đã chấp nhận lời mời kết bạn")
 				.build();
-		notificationRepository.save(notification);
 		to.getNotifications().add(notification);
 		notificationRepository.save(notification);
 		userRepository.save(to);
@@ -64,4 +71,5 @@ public class NoticationServiceImp implements NotificationService {
 		return authStaticService.currentUser().getNotifications().subList(dto.getNext() * 10,
 				Math.min(dto.getNext() * 10 + 10, notifications.size()));
 	}
+
 }

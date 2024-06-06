@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(), TestActivity.class);
                         startActivity(i);
                     }
+
                     @Override
                     public void onLoginFailure(String errorMessage) {
                         System.out.println(errorMessage);

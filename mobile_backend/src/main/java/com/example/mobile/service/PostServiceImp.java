@@ -13,6 +13,8 @@ import com.example.mobile.model.User;
 import com.example.mobile.repository.PostRepository;
 import com.example.mobile.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PostServiceImp implements PostService {
 	@Autowired
@@ -24,6 +26,7 @@ public class PostServiceImp implements PostService {
 	@Autowired
 	AuthStaticService authStaticService;
 	@Override
+	@Transactional
 	public void save(AddPostDTO dto) throws Exception {
 		User user = authStaticService.currentUser();
 		Post post = Post.builder().user(user).content(dto.getContent()).comments(new ArrayList<>())
