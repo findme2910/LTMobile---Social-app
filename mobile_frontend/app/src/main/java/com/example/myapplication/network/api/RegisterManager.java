@@ -1,6 +1,8 @@
 package com.example.myapplication.network.api;
 
-import com.example.myapplication.network.model.dto.LoginRequest;
+import android.util.Log;
+
+import com.example.myapplication.network.model.dto.RegisterDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
 
 import java.io.IOException;
@@ -9,32 +11,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginManager {
-    public void loginUser(String username, String password, final OnLoginListener listener) {
-        ApiInterface apiService = ApiClient.getRetrofitInstance().create(ApiInterface.class);
-        LoginRequest loginRequest = new LoginRequest(username, password);
+public class RegisterManager {
+    public interface OnRegisterListener {
+        void onRegisterSuccess(String message);
+        void onRegisterFailure(String errorMessage);
+    }
 
-        Call<ResponseDTO> call = apiService.login(loginRequest);
+    public void registerUser(RegisterDTO registerDTO, final OnRegisterListener listener) {
+        ApiInterface apiService = ApiClient.getRetrofitInstance().create(ApiInterface.class);
+        Call<ResponseDTO> call = apiService.register(registerDTO);
 
         call.enqueue(new Callback<ResponseDTO>() {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 if (response.isSuccessful()) {
-                    String token = response.body().getResponse();
                     if (listener != null) {
-                        listener.onLoginSuccess(token);
+                        listener.onRegisterSuccess(response.body().getResponse());
                     }
                 } else {
                     if (listener != null) {
-                        String errorMessage = "Login failed";
+                        String errorMessage = "Registration failed";
                         if (response.errorBody() != null) {
                             try {
                                 errorMessage = response.errorBody().string();
+                                Log.e("RegisterError", "Error body: " + errorMessage);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                        }else{
+                            Log.e("RegisterError", "Response code: " + response.code());
                         }
-                        listener.onLoginFailure(errorMessage);
+                        listener.onRegisterFailure(errorMessage);
                     }
                 }
             }
@@ -42,14 +49,10 @@ public class LoginManager {
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
                 if (listener != null) {
-                    listener.onLoginFailure("Network error: " + t.getMessage());
+                    listener.onRegisterFailure("Network error: " + t.getMessage());
                 }
             }
         });
     }
-
-    public interface OnLoginListener {
-        void onLoginSuccess(String token);
-        void onLoginFailure(String errorMessage);
-    }
 }
+

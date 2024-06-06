@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void register(RegisterDTO dto) throws Exception {
 		if (userRepository.findByPhone(dto.getPhone()) != null)
-			throw new Exception("Phone exsit");
+			throw new Exception("Phone exist");
 		if (!CommonRegex.isValidNumberPhone(dto.getPhone())) {
 			throw new Exception("Phone's Format is incorrect");
 		}

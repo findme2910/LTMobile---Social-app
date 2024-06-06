@@ -12,4 +12,5 @@ import retrofit2.http.Header;
 public interface UserAPI {
     @GET("/user")
     Call<UserInformationDTO> getUserInfo(@Header("Authorization") String token);
+
 }

@@ -19,16 +19,21 @@
         <activity
                 android:name=".ui.activities.TestActivity"
                 android:exported="true"/>
-
         <activity
-                android:name=".ui.activities.HomeActivity"
-                android:exported="false"/>
-        <activity android:name=".ui.activities.AddFriendActivity"/>
-        <activity android:name=".ui.activities.NotificationActivity">
-        </activity>
+            android:name=".ui.activities.HomeActivity"
+            android:exported="false"/>
         <activity
-
-            android:name=".ui.activities.CommentsActivity"/>
+            android:name=".ui.activities.AddFriendActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.NotificationActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.RegisterActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.CommentsActivity"
+            android:exported="false"/>
 
         <activity android:name=".ui.activities.MainActivity" android:exported="true">
 
