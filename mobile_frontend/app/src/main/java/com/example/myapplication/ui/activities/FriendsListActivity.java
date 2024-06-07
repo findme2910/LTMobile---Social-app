@@ -38,6 +38,7 @@ public class FriendsListActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 finish();
             }
         });
@@ -48,25 +49,31 @@ public class FriendsListActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     protected void onStart() {
         super.onStart();
         ProfileManager profileManager = new ProfileManager();
-        profileManager.getProfile(new HandleListener<ProfileDTO>() {
-            @Override
-            public void onSuccess(ProfileDTO profileDTO) {
-                friends = profileDTO.getFriends();
 
-                friendsListAdapter = new FriendsListAdapter(getApplicationContext(), friends);
-                recyclerViewAllFriendList.setAdapter(friendsListAdapter);
+        // Nhận ID người dùng từ Intent
+        int userId = getIntent().getIntExtra("USER_ID", -1);
+        System.out.println(userId);
+            profileManager.getProfileForUser(userId, new HandleListener<ProfileDTO>() {
+                @Override
+                public void onSuccess(ProfileDTO profileDTO) {
+                    friends = profileDTO.getFriends();
+                    friendsListAdapter = new FriendsListAdapter(getApplicationContext(), friends);
+                    recyclerViewAllFriendList.setAdapter(friendsListAdapter);
+                }
 
-//                countFriend.setText(String.valueOf(friends.size()));
-            }
+                @Override
+                public void onFailure(String errorMessage) {
+                    // Xử lý khi có lỗi xảy ra
+                }
+            });
 
-            @Override
-            public void onFailure(String errorMessage) {
+//        }
 
-            }
-        });
     }
 }

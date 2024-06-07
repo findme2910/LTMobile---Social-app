@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.example.myapplication.R;
 import com.example.myapplication.network.api.LoginManager;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
+import com.example.myapplication.ui.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     RelativeLayout buttonLogin;

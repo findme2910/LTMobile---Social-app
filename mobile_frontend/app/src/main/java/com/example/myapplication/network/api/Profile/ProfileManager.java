@@ -33,7 +33,48 @@ public class ProfileManager {
             }
         });
     }
-    public void updateAvatar(UpdateAvatarDTO updateAvatarDTO, HandleListener<String> handleListener) {
 
+    public void getProfileForUser(int userId, HandleListener<ProfileDTO> handleListener) {
+        ProfileApi profileApi = ApiClient.getRetrofitInstance().create(ProfileApi.class);
+        String token = JwtTokenManager.getInstance().getToken();
+        Call<ProfileDTO> call = profileApi.getProfileForUser("Bearer " + token, userId);
+
+        call.enqueue(new Callback<ProfileDTO>() {
+            @Override
+            public void onResponse(Call<ProfileDTO> call, Response<ProfileDTO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    handleListener.onSuccess(response.body());
+                } else {
+                    handleListener.onFailure("Failed to load profile for user: " + userId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileDTO> call, Throwable t) {
+                handleListener.onFailure("Failed to load profile for user: " + userId + " - " + t.getMessage());
+            }
+        });
+    }
+
+    public void updateAvatar(UpdateAvatarDTO updateAvatarDTO, HandleListener<String> handleListener) {
+        ProfileApi profileApi = ApiClient.getRetrofitInstance().create(ProfileApi.class);
+        String token = JwtTokenManager.getInstance().getToken();
+        Call<ResponseDTO> call = profileApi.updateAvatar(updateAvatarDTO, "Bearer " + token);
+
+        call.enqueue(new Callback<ResponseDTO>() {
+            @Override
+            public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
+                if (response.isSuccessful()) {
+                    handleListener.onSuccess("Avatar updated successfully");
+                } else {
+                    handleListener.onFailure("Update avatar failure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDTO> call, Throwable t) {
+                handleListener.onFailure("Update avatar failure: " + t.getMessage());
+            }
+        });
     }
 }

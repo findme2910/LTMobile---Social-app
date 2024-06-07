@@ -15,5 +15,6 @@ public class ProfileDTO {
     private long birth;
     private String avatar;
     private boolean own;
+    private String phone;
     private List<FriendViewDTO> friends;
 }

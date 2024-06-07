@@ -5,13 +5,18 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
+
 public class ImageConvert {
-    public static Bitmap base64ToBitMap(String base64){
-        byte[] decodedBytes = Base64.decode(base64, Base64.DEFAULT);
+    public static String bitMapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP); // Use NO_WRAP to avoid line breaks
+    }
 
-        // Chuyển mảng byte thành hình ảnh Bitmap
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-
-        return bitmap;
+    public static Bitmap base64ToBitMap(String encodedString) {
+        byte[] decodedString = Base64.decode(encodedString, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }

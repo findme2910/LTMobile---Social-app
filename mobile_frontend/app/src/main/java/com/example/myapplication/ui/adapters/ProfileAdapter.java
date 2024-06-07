@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.network.model.dto.FriendViewDTO;
+import com.example.myapplication.ui.activities.ProfileActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +24,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
+    @Setter
+    private ProfileClickListener profileClickListener;
     private Context mContext;
     private List<FriendViewDTO> friends;
 
@@ -29,6 +33,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         mContext = context;
         friends = friendList;
     }
+
+    public interface ProfileClickListener {
+        void onProfileClicked(int userId);
+    }
+
 
     @NonNull
     @NotNull
@@ -48,6 +57,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 //         Hiển thị hình ảnh trong ImageView
         ImageView imageView = holder.avatarImageView;
         imageView.setImageBitmap(ImageConvert.base64ToBitMap(friend.getAvatar()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (profileClickListener != null) {
+                    profileClickListener.onProfileClicked(friend.getUserId());
+                }
+            }
+        });
+
     }
 
     @Override
