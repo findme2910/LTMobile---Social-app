@@ -9,4 +9,6 @@ public interface PostService {
 	public void save(AddPostDTO dto) throws Exception;
 
 	public List<Post> get();
+	
+	public List<Post> getSpecific( int userId);
 }
