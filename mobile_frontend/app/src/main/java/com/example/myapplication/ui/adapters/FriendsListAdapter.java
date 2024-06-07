@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.convert.ImageConvert;
+import com.example.myapplication.convert.ImageConvertProfile;
 import com.example.myapplication.network.model.dto.FriendViewDTO;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +50,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
 //         Hiển thị hình ảnh trong ImageView
         ImageView imageView = holder.avatarImageView;
-        imageView.setImageBitmap(ImageConvert.base64ToBitMap(friend.getAvatar()));
+        imageView.setImageBitmap(ImageConvertProfile.base64ToBitMap(friend.getAvatar()));
     }
 
     @Override

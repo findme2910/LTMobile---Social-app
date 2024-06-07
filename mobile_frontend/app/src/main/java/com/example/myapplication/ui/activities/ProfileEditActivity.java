@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvertProfile;
 import com.example.myapplication.convert.ImageConvert;
+import com.example.myapplication.convert.ImageConvertProfile;
 import com.example.myapplication.network.api.ApiClient;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Profile.ProfileApi;
@@ -98,7 +99,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                 Bitmap avatarBitmap = ((BitmapDrawable)userAvatar.getDrawable()).getBitmap();
 
                 // Chuyển đổi Bitmap thành chuỗi Base64
-                String base64Avatar = ImageConvert.bitMapToBase64(avatarBitmap);
+                String base64Avatar = ImageConvertProfile.bitMapToBase64(avatarBitmap);
                 System.out.println(base64Avatar);
 
                 UpdateAvatarDTO updateAvatarDTO = new UpdateAvatarDTO(base64Avatar);
@@ -132,7 +133,7 @@ public class ProfileEditActivity extends AppCompatActivity {
             public void onSuccess(ProfileDTO profileDTO) {
                 editName.setText(profileDTO.getName());
                 editBirthday.setText(DateConvertProfile.convertToString(profileDTO.getBirth()));
-                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(profileDTO.getAvatar()));
+                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(profileDTO.getAvatar()));
             }
             @Override
             public void onFailure(String errorMessage) {
@@ -150,7 +151,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 //            public void onSuccess(ProfileDTO profileDTO) {
 //                editName.setText(profileDTO.getName());
 //                editBirthday.setText(DateConvertProfile.convertToString(profileDTO.getBirth()));
-//                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(profileDTO.getAvatar()));
+//                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(profileDTO.getAvatar()));
 //            }
 //            @Override
 //            public void onFailure(String errorMessage) {

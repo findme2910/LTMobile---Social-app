@@ -19,6 +19,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvert;
 import com.example.myapplication.convert.DateConvertProfile;
 import com.example.myapplication.convert.ImageConvert;
+import com.example.myapplication.convert.ImageConvertProfile;
 import com.example.myapplication.model.Post;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Profile.ProfileManager;
@@ -80,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (data != null) {
                             String newAvatar = data.getStringExtra("NEW_AVATAR");
                             if (newAvatar != null && !newAvatar.isEmpty()) {
-                                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(newAvatar));
+                                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(newAvatar));
                             }
                         }
                     }
@@ -121,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(ProfileDTO profileDTO) {
                 profileName.setText(profileDTO.getName());
                 profileBirthday.setText(DateConvertProfile.convertToString(profileDTO.getBirth()));
-                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(profileDTO.getAvatar()));
+                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(profileDTO.getAvatar()));
 
                 friends = profileDTO.getFriends();
                 selectedUserId = profileDTO.getUserId();
@@ -166,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
                             public void onSuccess(ProfileDTO profileDTO) {
                                 profileName.setText(profileDTO.getName());
                                 profileBirthday.setText(DateConvertProfile.convertToString(profileDTO.getBirth()));
-                                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(profileDTO.getAvatar()));
+                                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(profileDTO.getAvatar()));
 
 
                                 friends = profileDTO.getFriends();
@@ -209,7 +210,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Cập nhật hình ảnh trong giao diện
             if (newAvatar != null && !newAvatar.isEmpty()) {
-                userAvatar.setImageBitmap(ImageConvert.base64ToBitMap(newAvatar));
+                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(newAvatar));
             }
         }
     }
