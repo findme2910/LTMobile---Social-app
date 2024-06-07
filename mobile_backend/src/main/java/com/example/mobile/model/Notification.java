@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -28,9 +29,9 @@ public class Notification {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String content;
-	@ManyToOne  
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
 	private User trigger;
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Post post;
 	@CreationTimestamp
 	private Date createAt;
