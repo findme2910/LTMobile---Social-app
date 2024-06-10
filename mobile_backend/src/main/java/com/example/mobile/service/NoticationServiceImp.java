@@ -31,7 +31,17 @@ public class NoticationServiceImp implements NotificationService {
 		notificationRepository.save(notification); 
 		userRepository.save(to.getUser());
 	}
-
+	
+	@Override
+	public void replyNoti(Post to) {
+		User currUser = authStaticService.currentUser();
+		Notification notification = Notification.builder().type(NotificationType.LIKE_POST).trigger(currUser)
+				.content("Đã phản hồi bình luận của bạn").post(to).build();
+		to.getUser().getNotifications().add(notification);
+		notificationRepository.save(notification); 
+		userRepository.save(to.getUser());
+	}
+	
 	@Override
 	public void commentNoti(Post to) {
 		User currUser = authStaticService.currentUser();

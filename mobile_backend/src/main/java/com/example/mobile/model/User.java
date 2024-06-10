@@ -49,15 +49,15 @@ public class User implements UserDetails {
 	@OneToMany
 	@JsonManagedReference
 	private List<Post> posts;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
+	@ElementCollection
 	private List<User> friends;
-	@OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 //	@JsonBackReference
-	@JsonManagedReference
+	@JsonManagedReference 
 	private List<FriendRequest> friendRequests;
 	@OneToMany
 	private List<Notification> notifications;
-	
+
 	private int currentNoti;
 
 	@Override
