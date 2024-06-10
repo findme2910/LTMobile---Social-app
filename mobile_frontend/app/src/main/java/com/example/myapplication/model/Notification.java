@@ -19,6 +19,6 @@ public class Notification{
     private String name;
     private Date createdAt;
     private boolean active;
-
+    private int postId;
 
 }

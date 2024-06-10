@@ -103,7 +103,7 @@ public class NotificationActivity extends AppCompatActivity {
                 List<Notification> notificationsLater = new ArrayList<>();
 
                 for (NotificationDTO dto : notificationDTOS) {
-                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), new Date(dto.getCreateAt()),true);
+                    Notification notification = new Notification(dto.getContent(), dto.getAvatar(), dto.getName(), new Date(dto.getCreateAt()),true,dto.getPostId());
                     if (isToday(new Date(dto.getCreateAt()))) {
                         notificationsToday.add(notification);
                     } else {
