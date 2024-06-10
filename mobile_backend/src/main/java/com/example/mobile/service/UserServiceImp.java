@@ -292,6 +292,7 @@ public class UserServiceImp implements UserService {
 		addTo.getReplys().add(comment);
 		commentRepository.save(comment);
 		commentRepository.save(addTo);
+		notificationService.replyNoti(addTo.getPost());
 	}
 
 	@Override
