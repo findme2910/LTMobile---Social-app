@@ -52,6 +52,7 @@ public class TestActivity extends AppCompatActivity {
 
             if (item.getItemId() == R.id.navigation_notification) {
                 replaceFragment(notificationFragment);
+                createPost.setVisibility(View.GONE);
             }
 
             if (item.getItemId() == R.id.navigation_friends) {
