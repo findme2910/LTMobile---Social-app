@@ -3,6 +3,7 @@ package com.example.myapplication.ui.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,18 +12,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.myapplication.R;
+import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Post.PostManager;
 import com.example.myapplication.network.model.dto.AddPostDTO;
+import de.hdodenhof.circleimageview.CircleImageView;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -34,6 +34,9 @@ public class CreatePostActivity extends AppCompatActivity {
     private boolean selectedImage = false;
     private PostManager postManager = new PostManager();
 
+    private CircleImageView postUserAvatar;
+    private TextView postUserName;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +46,21 @@ public class CreatePostActivity extends AppCompatActivity {
         img = findViewById(R.id.post_add_image);
         add = findViewById(R.id.post_add_button);
         cancel = findViewById(R.id.post_cancel_button);
+        postUserName = findViewById(R.id.post_user_name);
+        postUserAvatar = findViewById(R.id.post_user_avatar);
         add.setVisibility(View.INVISIBLE);
         img.setOnClickListener(n -> {
             openImagePicker();
         });
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        //nếu username không tồn tại thì sẽ trả vế unknown User
+        String username = sharedPreferences.getString("username", "Unknown User");
+        String avatarUrl = sharedPreferences.getString("avatarUrl", "");
+
+        postUserName.setText(username);
+        postUserAvatar.setImageBitmap(ImageConvert.base64ToBitMap(avatarUrl));
         content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -69,6 +83,7 @@ public class CreatePostActivity extends AppCompatActivity {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
+
 
 
             String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);

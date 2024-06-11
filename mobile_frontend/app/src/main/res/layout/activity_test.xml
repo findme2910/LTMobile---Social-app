@@ -31,10 +31,11 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
         />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="Bạn đang nghĩ gì ?"
-                  android:layout_gravity="center|center_vertical"
-                  android:layout_marginStart="20dp"
+        <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Bạn đang nghĩ gì ?"
+                android:layout_gravity="center|center_vertical"
+                android:layout_marginStart="20dp"
         />
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                    android:background="@drawable/ic_friends"
