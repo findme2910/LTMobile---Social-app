@@ -125,11 +125,12 @@ public class PostController {
 			return ResponseEntity.badRequest().body(new ResponseDTO("Failure"));
 		}
 	}
-
+// đây là phương thức getComment
 	@GetMapping("/comment/{postId}")
 	public ResponseEntity<?> getComments(@PathVariable int postId) {
 		try {
 			return ResponseEntity
+					//lấy được các thực thể comment xong sẽ ánh xạ nó qua dto để trả về danh sách các DTO
 					.ok(userService.getComments(postId).stream().map(PostMapper.INSTANCE::entityToCommentViewDTO));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

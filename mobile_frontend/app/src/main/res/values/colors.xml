@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="usernameColor">#000000</color>
+    <color name="commentTextColor">#333333</color>
+    <color name="createAtColor">#999999</color>
+    <color name="replyColor">#1E90FF</color> <!-- Màu xanh dương cho phản hồi -->
+    <color name="background">#f0f0f0</color>
+    <color name="colorAccent">#3F51B5</color> <!-- Màu xanh dương cho nút Send -->
+    <color name="blackcolor">#111111</color>
+    <color name="lightwhite">#F5F5F3</color>
+    <color name="whitecolor">#fff</color>
+    <color name="greencolor">#43CEBB</color>
+    <color name="fullwhite">#7A7A7A</color>
 </resources>

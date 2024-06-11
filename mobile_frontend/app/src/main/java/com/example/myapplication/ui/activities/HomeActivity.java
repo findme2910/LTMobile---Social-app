@@ -69,7 +69,10 @@ public class HomeActivity extends FragmentActivity {
                 startActivity(i);
             }
         });
-
+        noti.setOnClickListener(v->{
+            Intent i = new Intent(getApplicationContext(), NotificationActivity.class);
+            startActivity(i);
+        });
         homeRefresh = findViewById(R.id.swipe_refresh_home);
 
 

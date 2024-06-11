@@ -1,136 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activities.MainActivity">
-
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/back_button"
-            android:id="@+id/back_button"
-            android:backgroundTint="#727272"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Log in"
-            android:textSize="26sp"
-            android:textColor="#000000"
-            android:layout_below="@id/back_button"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-condensed"
-            android:id="@+id/log_in"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_below="@id/log_in"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="30dp"
-            android:id="@+id/email">
-
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_screen_et_bg"/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Email"
-                android:layout_marginStart="15dp"
-                android:background="@null"
-                android:id="@+id/et_email"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_below="@id/email"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="30dp"
-            android:id="@+id/password">
-
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_screen_et_bg"/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="●●●●●●●●"
-                android:layout_marginStart="15dp"
-                android:background="@null"
-                android:inputType="textPassword"
-                android:id="@+id/et_password"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_below="@id/password"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="30dp"
-            android:id="@+id/log_in_button">
-
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/main_screen_button_bg"
-                android:backgroundTint="#000000"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LOG IN"
-                android:textColor="#FFFFFF"
-                android:layout_centerInParent="true"
-                android:textStyle="bold"/>
-    </RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/lightwhite"
+    tools:context=".ui.activities.MainActivity">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:text=" Log In"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/blackcolor"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:id="@+id/log_in"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/img"
+            android:layout_marginTop="40dp">
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_face_black_24dp"
+                />
+        </LinearLayout>
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't have a "
-                android:textColor="#000000"/>
 
+        <EditText
+            android:layout_width="355dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn"
+            android:elevation="5dp"
+            android:hint="Phone Number"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="15dp"
+            android:id="@+id/et_email"/>
+        <EditText
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:hint="Password"
+            android:elevation="5dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="15dp"
+            android:inputType="textPassword"
+            android:background="@drawable/btn"
+            android:id="@+id/et_password"/>
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Log In"
+            android:textAllCaps="false"
+            android:background="@drawable/joinbtn"
+            android:textColor="@color/whitecolor"
+            android:id="@+id/log_in_button"/>
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Customer"
-                android:textColor="#000000"
-                android:id="@+id/tv_page"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" account? "
-                android:textColor="#000000"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SIGN UP"
-                android:textColor="#FF0F0F"
-                android:id="@+id/tv_sign_up"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No account! Register?"
+            android:textColor="@color/fullwhite"
+            android:layout_marginTop="25dp"
+            android:id="@+id/tv_sign_up"/>
     </LinearLayout>
-</RelativeLayout>
+
+</LinearLayout>

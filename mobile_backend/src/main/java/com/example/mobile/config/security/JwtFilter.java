@@ -1,5 +1,5 @@
 package com.example.mobile.config.security;
-
+// đây là các lớp sử dụng json web token (JWT) để bảo vệ các tài nguyên và xác thực người dùng
 import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

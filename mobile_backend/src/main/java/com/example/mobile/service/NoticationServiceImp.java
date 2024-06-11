@@ -1,5 +1,6 @@
 package com.example.mobile.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import com.example.mobile.repository.NotificationRepository;
 import com.example.mobile.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
-
+// triển khai api nội bộ để rest có thể gọi
 @Service
 @AllArgsConstructor
 public class NoticationServiceImp implements NotificationService {
@@ -74,6 +75,7 @@ public class NoticationServiceImp implements NotificationService {
 	@Override
 	public List<Notification> getNotis(RequestNotificationDTO dto) {
 		// TODO Auto-generated method stub
+
 		User curr = authStaticService.currentUser();
 		List<Notification> notifications = authStaticService.currentUser().getNotifications();
 		curr.setCurrentNoti(curr.getNotifications().size());
@@ -82,6 +84,7 @@ public class NoticationServiceImp implements NotificationService {
 			return null;
 		return authStaticService.currentUser().getNotifications().subList(dto.getNext() * 10,
 				Math.min(dto.getNext() * 10 + 10, notifications.size()));
+
 	}
 
 }

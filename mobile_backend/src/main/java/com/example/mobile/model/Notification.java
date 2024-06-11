@@ -37,4 +37,5 @@ public class Notification {
 	private Date createAt;
 	@Enumerated
 	private NotificationType type;
+
 }
