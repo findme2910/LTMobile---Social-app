@@ -14,6 +14,7 @@ import com.example.mobile.repository.NotificationRepository;
 import com.example.mobile.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
+
 // triển khai api nội bộ để rest có thể gọi
 @Service
 @AllArgsConstructor
@@ -22,28 +23,40 @@ public class NoticationServiceImp implements NotificationService {
 	private final UserRepository userRepository;
 	private AuthStaticService authStaticService;
 
+	private boolean rejectNoti(User user) {
+		if (user.getId() == authStaticService.currentUser().getId())
+			return true;
+		return false;
+	}
+
 	@Override
 	public void likeNoti(Post to) {
+		if (rejectNoti(to.getUser()))
+			return;
 		User currUser = authStaticService.currentUser();
 		Notification notification = Notification.builder().type(NotificationType.LIKE_POST).trigger(currUser)
 				.content("Đã thích bài viết của bạn").post(to).build();
 		to.getUser().getNotifications().add(notification);
-		notificationRepository.save(notification); 
+		notificationRepository.save(notification);
 		userRepository.save(to.getUser());
 	}
-	
+
 	@Override
 	public void replyNoti(Post to) {
+		if (rejectNoti(to.getUser()))
+			return;
 		User currUser = authStaticService.currentUser();
 		Notification notification = Notification.builder().type(NotificationType.LIKE_POST).trigger(currUser)
 				.content("Đã phản hồi bình luận của bạn").post(to).build();
 		to.getUser().getNotifications().add(notification);
-		notificationRepository.save(notification); 
+		notificationRepository.save(notification);
 		userRepository.save(to.getUser());
 	}
-	
+
 	@Override
 	public void commentNoti(Post to) {
+		if (rejectNoti(to.getUser()))
+			return;
 		User currUser = authStaticService.currentUser();
 		Notification notification = Notification.builder().type(NotificationType.COMMENT_POST).trigger(currUser)
 				.content("Đã bình luận bài viết của bạn").post(to).build();
