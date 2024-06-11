@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void register(RegisterDTO dto) throws Exception {
 		if (userRepository.findByPhone(dto.getPhone()) != null)
-			throw new Exception("Phone exsit");
+			throw new Exception("Phone exist");
 		if (!CommonRegex.isValidNumberPhone(dto.getPhone())) {
 			throw new Exception("Phone's Format is incorrect");
 		}
@@ -81,6 +81,8 @@ public class UserServiceImp implements UserService {
 
 		userRepository.save(u);
 	}
+
+
 
 	@Override
 	public String login(LoginDTO loginDTO) throws Exception {
@@ -127,6 +129,7 @@ public class UserServiceImp implements UserService {
 		post.getComments().add(comment);
 		commentRepository.save(comment);
 	}
+
 
 //	@Override
 //	public void update(UserUpdateDTO dto) throws Exception {
@@ -292,6 +295,7 @@ public class UserServiceImp implements UserService {
 		addTo.getReplys().add(comment);
 		commentRepository.save(comment);
 		commentRepository.save(addTo);
+		notificationService.replyNoti(addTo.getPost());
 	}
 
 	@Override

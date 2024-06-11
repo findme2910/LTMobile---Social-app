@@ -7,6 +7,9 @@ import com.example.myapplication.network.model.dto.ResponseDTO;
 import com.example.myapplication.network.model.dto.UserInformationDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
 
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,24 +25,30 @@ public class LoginManager {
             @Override
             public void onResponse(Call<ResponseDTO> call, Response<ResponseDTO> response) {
                 if (response.isSuccessful()) {
-                    String token = response.body().response;
+                    String token = response.body().getResponse();
                     if (listener != null) {
                         listener.onLoginSuccess(token);
                     }
                 } else {
                     if (listener != null) {
-                        listener.onLoginFailure("Đăng nhập thất bại");
+                        String errorMessage = "Login failed";
+                        if (response.errorBody() != null) {
+                            try {
+                                errorMessage = response.errorBody().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        listener.onLoginFailure(errorMessage);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseDTO> call, Throwable t) {
-
                 if (listener != null) {
-                    listener.onLoginFailure("Lỗi mạng: " + t);
+                    listener.onLoginFailure("Network error: " + t.getMessage());
                 }
-
             }
         });
     }
@@ -48,7 +57,6 @@ public class LoginManager {
 
     public interface OnLoginListener {
         void onLoginSuccess(String token);
-
         void onLoginFailure(String errorMessage);
     }
 }

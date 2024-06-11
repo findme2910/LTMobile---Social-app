@@ -24,7 +24,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
+// được sử dụng để hiển thị danh sách kết bạn đến người dùng
 public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.ViewHolder> {
     private Context mContext;
     private List<FriendRequestModel> mFriendRequests;
@@ -46,7 +46,7 @@ public class AddFriendAdapter extends RecyclerView.Adapter<AddFriendAdapter.View
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
-
+    //thiết lập dữ liệu cho từng mục trong danh sách yêu cầu kết bạn khi mục đó xuất hiện len màn hình
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull AddFriendAdapter.ViewHolder holder, int position) {

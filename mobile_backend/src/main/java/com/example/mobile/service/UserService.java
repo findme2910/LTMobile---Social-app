@@ -16,6 +16,7 @@ import com.example.mobile.model.User;
 
 public interface UserService {
 
+
 	public String login(LoginDTO loginDTO) throws Exception;
 
 	public void register(RegisterDTO dto) throws Exception;

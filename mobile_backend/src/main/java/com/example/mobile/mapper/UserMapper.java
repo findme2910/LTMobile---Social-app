@@ -22,21 +22,42 @@ import com.example.mobile.model.NotificationType;
 import com.example.mobile.model.Post;
 import com.example.mobile.model.User;
 
-@Mapper(componentModel = "spring")
+//đây là maper trong java sử dụng thư viện mapstruct
+
+/**
+ * Mapstruc là công cụ ánh xạ các đối tượng, giúp tự động hóa chuyển đổi giữa các lớp dto và các thực thể
+ * Đây là cách dể tách biệt lớp dịch vụ và lớp dữ liệu
+ */
+@Mapper(componentModel = "spring")// cho phép mapstruct tích hợp với stringFramework
 public abstract class UserMapper {
 	public static UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+// các phương thức ánh xạ
 
+	/**
+	 * chuyển đổi friendrequest entity sang friendrequestDto
+	 * @param entity
+	 * @return
+	 * chuyển đổi thuộc tính createAt sang time của friendRequestdto
+	 * Chuyển đổi các thuộc tính từ đối tượng formUser của friendrequest sang dto
+	 */
 	@Mapping(source = "createAt", target = "time", qualifiedByName = "dateToMillis")
 	@Mapping(source = "fromUser.name", target = "name")
 	@Mapping(source = "fromUser.id", target = "userId")
 	@Mapping(source = "fromUser.avatar", target = "avatar", qualifiedByName = "blobToString")
 	public abstract FriendViewRequestDTO friendRequestEntityToDTO(FriendRequest entity);
 
+	/**
+	 * Chuyển đổi user entity sang friendviewDTO
+	 * tương ưng với output input nhận vào thì output là target còn input là source
+	 * @param entity
+	 * @return
+	 */
 	@Mapping(source = "name", target = "name")
 	@Mapping(source = "id", target = "userId")
 	@Mapping(source = "avatar", target = "avatar", qualifiedByName = "blobToString")
 	public abstract FriendViewDTO userEntityToDTO(User entity);
 
+	//quaylifiedByname là phương thức ngay ở đây
 	@Mapping(source = "trigger.name", target = "name")
 	@Mapping(source = "trigger.id", target = "userId")
 	@Mapping(source = "trigger.avatar", target = "avatar", qualifiedByName = "blobToString")

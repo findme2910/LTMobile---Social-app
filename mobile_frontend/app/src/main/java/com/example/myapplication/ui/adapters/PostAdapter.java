@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvert;
@@ -16,6 +19,9 @@ import com.example.myapplication.model.Post;
 import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.Post.PostManager;
 import com.example.myapplication.network.model.dto.LikeDTO;
+import com.example.myapplication.ui.activities.CommentsActivity;
+import com.example.myapplication.ui.fragment.CommentsFragment;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +57,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.content.setText(post.getContent());
         holder.name.setText(post.getName());
         holder.comment.setText(post.getNumberOfComment()+" comments");
+        //handle Comment
+        holder.postComment.setOnClickListener(view -> {
+            Context context = view.getContext();
+            if (context instanceof FragmentActivity) {
+                FragmentActivity activity = (FragmentActivity) context;
+                CommentsFragment commentsFragment = new CommentsFragment();
+                Bundle args = new Bundle();
+                args.putInt("postID", post.getPostId());
+                commentsFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, commentsFragment) // id của trang home
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+
         holder.like.setText(post.getNumberOfLike()+" likes");
         if (post.isLike()) {
 
@@ -104,7 +127,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private TextView like;
         private TextView comment;
         private ImageButton likeButton;
-
+        private ImageButton postComment;
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.post_user_avatar);
@@ -115,7 +138,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             like = itemView.findViewById(R.id.post_number_like);
             comment = itemView.findViewById(R.id.post_number_comment);
             likeButton = itemView.findViewById(R.id.post_like_button);
-
+            postComment = itemView.findViewById(R.id.post_comment);
         }
     }
+
+
 }

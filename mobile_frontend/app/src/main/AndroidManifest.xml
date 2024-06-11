@@ -21,30 +21,35 @@
         <activity
                 android:name=".ui.activities.CreatePostActivity"
                 android:exported="true"/>
+        <activity
+            android:name=".ui.activities.HomeActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.AddFriendActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.NotificationActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.RegisterActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.CommentsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activities.TestActivity"
+            android:exported="false"/>
 
-        <activity
-                android:name=".ui.activities.TestActivity"
-                android:exported="true"/>
-        <activity
-                android:name=".ui.activities.HomeActivity"
-                android:exported="false"/>
         <activity android:name=".ui.activities.ProfileActivity"/>
         <activity android:name=".ui.activities.FriendsListActivity"/>
         <activity android:name=".ui.activities.ProfileEditActivity"/>
-        <activity android:name=".ui.activities.AddFriendActivity"/>
-        <activity android:name=".ui.activities.NotificationActivity">
-        </activity>
-        <activity
-                android:name=".ui.activities.MainActivity"
-                android:exported="true">
+
+        <activity android:name=".ui.activities.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

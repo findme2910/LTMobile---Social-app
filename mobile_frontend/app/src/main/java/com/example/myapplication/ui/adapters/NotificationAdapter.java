@@ -1,6 +1,8 @@
-package com.example.myapplication.ui.activities;
+package com.example.myapplication.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.convert.DateConvert;
+import com.example.myapplication.convert.ImageConvert;
+import com.example.myapplication.model.Notification;
+import com.example.myapplication.ui.fragment.CommentsFragment;
 
 import java.util.List;
 
@@ -23,6 +30,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public NotificationAdapter(Context ctx) {
         this.ctx = ctx;
     }
+
+    public NotificationAdapter(List<Notification> listNoti, Context ctx) {
+        this.listNoti = listNoti;
+        this.ctx = ctx;
+    }
+
     public void setData(List<Notification> list){
         this.listNoti = list;
         notifyDataSetChanged();
@@ -44,12 +57,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
         Notification noti = listNoti.get(position);
         if (noti == null) return;
-        holder.imgUser.setImageResource(noti.getResourceId());
+        ImageView imageView = holder.imgUser;
+        imageView.setImageBitmap(ImageConvert.base64ToBitMap(noti.getAvatar()));
         holder.tvContent.setText(noti.getContent());
         holder.tvName.setText(noti.getName());
-        holder.tvDate.setText(noti.getDateString());
+        holder.tvDate.setText(DateConvert.convertToString(noti.getCreatedAt().getTime()));
         if(!noti.isActive()) holder.relativeLayout.setBackgroundResource(R.drawable.background_drawable);
-
+        holder.relativeLayout.setOnClickListener(view -> {
+            Context context = view.getContext();
+            if (context instanceof FragmentActivity) {
+                FragmentActivity activity = (FragmentActivity) context;
+                CommentsFragment commentsFragment = new CommentsFragment();
+                Bundle args = new Bundle();
+                args.putInt("postID", noti.getPostId());
+                commentsFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, commentsFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     @Override
