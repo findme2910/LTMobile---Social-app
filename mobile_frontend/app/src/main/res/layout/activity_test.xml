@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:background="@drawable/border"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" android:visibility="visible">
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/post_user_avatar"
                 android:src="@drawable/ic_launcher_background"

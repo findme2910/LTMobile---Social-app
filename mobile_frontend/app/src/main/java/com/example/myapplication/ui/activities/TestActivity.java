@@ -2,6 +2,7 @@ package com.example.myapplication.ui.activities;
 
 import android.content.Intent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,9 +39,11 @@ public class TestActivity extends AppCompatActivity {
             // Xác định fragment tương ứng với mục được chọn
             if (item.getItemId() == R.id.navigation_home) {
                 replaceFragment(homeFragment);
+                createPost.setVisibility(View.VISIBLE);
             }
             if (item.getItemId() == R.id.navigation_friends) {
                 replaceFragment(friendFragment);
+                createPost.setVisibility(View.GONE);
             }
             if (item.getItemId() == R.id.navigation_profile) {
 

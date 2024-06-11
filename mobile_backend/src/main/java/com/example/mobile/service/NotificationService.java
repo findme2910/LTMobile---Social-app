@@ -16,5 +16,7 @@ public interface NotificationService {
 
 	public void acceptionAddFriend(User to);
 
+	public void replyNoti(Post to);
+
 	public List<Notification> getNotis(RequestNotificationDTO dto);
 }
