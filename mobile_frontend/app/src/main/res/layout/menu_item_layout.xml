@@ -1,0 +1,11 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/badge"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="99+"
+          android:textSize="12sp"
+          android:textColor="@android:color/white"
+          android:background="@drawable/badge_background"
+          android:paddingStart="4dp"
+          android:paddingEnd="4dp"
+          android:visibility="gone" />

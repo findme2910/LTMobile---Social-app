@@ -35,20 +35,10 @@
         android:id="@+id/chooseImage_button"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:backgroundTint="#0866FF"
+        android:backgroundTint="#4864a4"
         android:textColor="@color/white"
         android:text="Choose image"
         android:layout_marginBottom="40dp"/>
-
-<!--    <ImageView-->
-<!--        android:id="@+id/image_load"-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="150dp"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:civ_border_width="2dp"-->
-<!--        app:civ_border_color="#fff"/>-->
 
     <TextView
         android:layout_width="wrap_content"

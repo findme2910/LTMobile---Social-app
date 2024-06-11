@@ -27,8 +27,8 @@ public class FriendRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
-	 @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	    @JoinColumn(name = "from_user_id")
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "from_user_id")
 	public User fromUser;
 	public Date createAt;
 }

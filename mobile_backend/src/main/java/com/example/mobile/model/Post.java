@@ -1,5 +1,6 @@
 package com.example.mobile.model;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +31,7 @@ public class Post {
 	private int id;
 
 	private String content;
-	private String image;
+	private Blob image;
 	@CreationTimestamp
 	private Date createAt;
 	@CreationTimestamp
@@ -39,7 +41,7 @@ public class Post {
 	@JsonBackReference 
 	private User user;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Like> likes; 
 	@OneToMany
 	private List<Comment> comments;

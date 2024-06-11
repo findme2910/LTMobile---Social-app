@@ -1,7 +1,12 @@
 package com.example.myapplication.network.api;
 
+import com.example.myapplication.network.api.Profile.ProfileApi;
 import com.example.myapplication.network.model.dto.LoginRequest;
+import com.example.myapplication.network.model.dto.ProfileDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
+import com.example.myapplication.network.model.dto.UserInformationDTO;
+import com.example.myapplication.network.model.instance.JwtTokenManager;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +43,8 @@ public class LoginManager {
             }
         });
     }
+
+
 
     public interface OnLoginListener {
         void onLoginSuccess(String token);

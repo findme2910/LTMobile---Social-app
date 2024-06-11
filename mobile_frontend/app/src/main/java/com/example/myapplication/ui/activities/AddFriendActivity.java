@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.convert.DateConvert;
 import com.example.myapplication.model.FriendRequestModel;
@@ -24,7 +25,7 @@ public class AddFriendActivity extends AppCompatActivity {
     private AddFriendAdapter addFriendAdapter;
     private RequestAddFriend requestAddFriendAdapter;
     private List<FriendRequestModel> mFriendRequests, requestAddFriend;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView numberOfRequest;
 
     @Override
@@ -33,7 +34,16 @@ public class AddFriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
 
-
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Đây là nơi bạn thực hiện các hoạt động cần thiết để làm mới dữ liệu
+                // Sau khi hoàn thành, bạn cần gọi phương thức setRefreshing(false) để dừng hiệu ứng làm mới
+                // Ví dụ: load dữ liệu mới từ mạng hoặc cập nhật dữ liệu từ cơ sở dữ liệu
+                loadData();
+            }
+        });
         numberOfRequest = findViewById(R.id.numberOfRequest);
 
         mFriendRequests = new ArrayList<>();
@@ -51,13 +61,12 @@ public class AddFriendActivity extends AppCompatActivity {
         requestAddFriend = new ArrayList<>();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void loadData() {
         FriendAddManager friendAddManager = new FriendAddManager();
         friendAddManager.getFriendAdds(new HandleListener<List<IfReqAddFiendDTO>>() {
             @Override
             public void onSuccess(List<IfReqAddFiendDTO> ifReqAddFiendDTOs) {
+                mFriendRequests.clear();
                 ((TextView)findViewById(R.id.numberOfRequest)).setText(ifReqAddFiendDTOs.size()+"");
                 for (IfReqAddFiendDTO x : ifReqAddFiendDTOs) {
 
@@ -77,6 +86,7 @@ public class AddFriendActivity extends AppCompatActivity {
         friendAddManager.getSuggestFriendAdds(new HandleListener<List<IfReqAddFiendDTO>>() {
             @Override
             public void onSuccess(List<IfReqAddFiendDTO> ifReqAddFiendDTOs) {
+                requestAddFriend.clear();
                 for (IfReqAddFiendDTO x : ifReqAddFiendDTOs) {
                     requestAddFriend.add(new FriendRequestModel(x.getUserId(), x.getName(), null, x.getAvatar()));
                 }
@@ -91,5 +101,12 @@ public class AddFriendActivity extends AppCompatActivity {
 
             }
         });
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadData();
     }
 }

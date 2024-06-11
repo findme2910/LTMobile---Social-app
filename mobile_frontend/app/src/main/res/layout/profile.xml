@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:background="#e7e7e7"
+            />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_photo"
@@ -28,10 +29,6 @@
             android:backgroundTint="#ccc"
             app:civ_border_width="2dp"
             app:civ_border_color="#fff"/>
-<!--        android:background="#ccc"-->
-<!--        android:background="@drawable/circle_image"-->
-        <!-- Name -->
-
         <!-- Edit profile button -->
 
 
@@ -57,7 +54,7 @@
             android:layout_below="@id/profile_photo"
             android:text=""
             android:textColor="@android:color/black"
-            android:textSize="24sp" />
+            android:textSize="30dp" />
 
 
         <View
@@ -87,35 +84,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <!-- Icon -->
-<!--            <ImageView-->
-<!--                android:id="@+id/icon"-->
-<!--                android:layout_marginRight="6dp"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/ic_home"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/text1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Giới tính"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:layout_gravity="center_vertical"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/profile_address"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text=""-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:layout_gravity="center_vertical"/>-->
         </LinearLayout>
 
         <LinearLayout
@@ -142,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ngày sinh "
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textColor="@android:color/black"
                 android:layout_gravity="center_vertical"/>
 

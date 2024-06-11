@@ -9,13 +9,17 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.myapplication.R;
+import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.api.LoginManager;
+import com.example.myapplication.network.api.Profile.ProfileManager;
+import com.example.myapplication.network.model.dto.UserInformationDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
-import com.example.myapplication.ui.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     RelativeLayout buttonLogin;
     EditText editTextUsername, editTextPassword;
+
+    int userId;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -40,10 +44,26 @@ public class MainActivity extends AppCompatActivity {
                 loginManager.loginUser(username, password, new LoginManager.OnLoginListener() {
                     @Override
                     public void onLoginSuccess(String token) {
+
                         // Lấy SharedPreferences
                         JwtTokenManager.getInstance().setToken(token);
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivity(i);
+
+                        ProfileManager profileManager = new ProfileManager();
+                        profileManager.getUserInfor(new HandleListener<UserInformationDTO>() {
+                            @Override
+                            public void onSuccess(UserInformationDTO userInformationDTO) {
+                                userId = userInformationDTO.getUserId();
+                                // Chuyển hướng sang TestActivity
+                                Intent i = new Intent(getApplicationContext(), TestActivity.class);
+                                i.putExtra("LOGGED_USER_ID", userId); // Đặt giá trị userId vào Intent
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onFailure(String errorMessage) {
+                                System.out.println("Get id fail!");
+                            }
+                        });
                     }
 
                     @Override

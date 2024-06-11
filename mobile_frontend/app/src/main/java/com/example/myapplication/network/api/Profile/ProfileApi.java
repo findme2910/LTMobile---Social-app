@@ -4,6 +4,7 @@ import com.example.myapplication.network.model.dto.FriendRequest;
 import com.example.myapplication.network.model.dto.ProfileDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
 import com.example.myapplication.network.model.dto.UpdateAvatarDTO;
+import com.example.myapplication.network.model.dto.UserInformationDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,5 +23,8 @@ public interface ProfileApi {
 
     @POST("/profile/updateAvatar")
     Call<ResponseDTO> updateAvatar(@Body UpdateAvatarDTO updateAvatar  , @Header("Authorization") String token);
+
+    @GET("/user")
+    Call<UserInformationDTO> getUserInfor(@Header("Authorization") String token);
 
 }

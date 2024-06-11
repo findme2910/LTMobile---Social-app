@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <!-- ScrollView để nội dung có thể cuộn được -->
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/navigation_bar">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:clipChildren="false"/>
+    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <!-- Thanh điều hướng ở cuối trang -->
+    <LinearLayout
+            android:id="@+id/navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:elevation="8dp"
+    >
+        <!-- Trang chủ -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" android:layout_gravity="clip_vertical|center_horizontal">
+
+            <ImageButton
+                    android:id="@+id/home_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_home"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <!-- Thêm bạn bè -->
+         <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" android:layout_gravity="center">
+
+            <ImageButton
+                    android:id="@+id/addFriend_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/friend"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"/>
+            <TextView
+                    android:id="@+id/badge_addfriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="24dp"
+                    android:minHeight="24dp"
+                    android:padding="4dp"
+                    android:text="99"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:background="@drawable/badge_background"
+                    android:layout_alignEnd="@id/addFriend_button"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginEnd="-15dp"/>
+        </RelativeLayout>
+
+        <!-- Thông báo -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" android:layout_gravity="center_vertical">
+
+            <ImageButton
+                    android:id="@+id/notification_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_nofication"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_centerVertical="true"/>
+            <!-- Badge -->
+            <TextView
+                    android:id="@+id/badge_noti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="24dp"
+                    android:minHeight="24dp"
+                    android:padding="4dp"
+                    android:text="99"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:background="@drawable/badge_background"
+                    android:layout_alignEnd="@id/notification_button"
+                    android:layout_marginEnd="-15dp"/>
+        </RelativeLayout>
+
+        <!-- Logout -->
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" android:layout_gravity="center_vertical">
+
+            <ImageButton
+                    android:id="@+id/logout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_logout"
+                    android:foregroundGravity="center_vertical|center_horizontal"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

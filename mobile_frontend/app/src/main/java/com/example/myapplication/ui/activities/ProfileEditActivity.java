@@ -142,22 +142,5 @@ public class ProfileEditActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        ProfileManager profileManager = new ProfileManager();
-//        profileManager.getProfile(new HandleListener<ProfileDTO>() {
-//            @Override
-//            public void onSuccess(ProfileDTO profileDTO) {
-//                editName.setText(profileDTO.getName());
-//                editBirthday.setText(DateConvertProfile.convertToString(profileDTO.getBirth()));
-//                userAvatar.setImageBitmap(ImageConvertProfile.base64ToBitMap(profileDTO.getAvatar()));
-//            }
-//            @Override
-//            public void onFailure(String errorMessage) {
-//
-//            }
-//        });
-//    }
 
 }

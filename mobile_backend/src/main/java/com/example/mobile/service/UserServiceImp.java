@@ -1,6 +1,5 @@
 package com.example.mobile.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,11 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.rowset.serial.SerialException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +17,11 @@ import com.example.mobile.config.DefaultSource;
 import com.example.mobile.config.security.JwtUtils;
 import com.example.mobile.dto.CommentDTO;
 import com.example.mobile.dto.FriendRequestDTO;
+import com.example.mobile.dto.HomeViewDTO;
 import com.example.mobile.dto.LikeDTO;
 import com.example.mobile.dto.LoginDTO;
 import com.example.mobile.dto.RegisterDTO;
+import com.example.mobile.dto.ReplyCommentDTO;
 import com.example.mobile.dto.UpdateAvatarDTO;
 import com.example.mobile.model.Comment;
 import com.example.mobile.model.FriendRequest;
@@ -79,8 +76,8 @@ public class UserServiceImp implements UserService {
 			throw new Exception("InValid Gender");
 		User u = User.builder().phone(dto.getPhone()).name(dto.getName())
 				.password(passwordEncoder.encode(dto.getPassword())).comments(new ArrayList<>())
-				.likes(new ArrayList<>()).friends(new ArrayList<>()).posts(new ArrayList<>()).gender(gender)
-				.birth(new Date(dto.getBirth())).avatar(ConvertFile.toBlob(DefaultSource.DEFAULT_AVATAR_MALE)).build();
+				.posts(new ArrayList<>()).gender(gender).birth(new Date(dto.getBirth()))
+				.avatar(ConvertFile.toBlob(DefaultSource.DEFAULT_AVATAR_MALE)).build();
 
 		userRepository.save(u);
 	}
@@ -100,24 +97,34 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void like(LikeDTO dto) throws Exception {
-		Like like = likeRepository.findByUser_IdAndPost_Id(dto.getUserId(), dto.getPostId());
+		User u = authStaticService.currentUser();
+		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
+		Like like = likeRepository.findByUser_IdAndPost_Id(u.getId(), dto.getPostId());
 		if (like != null) {
+			Iterator<Like> it = post.getLikes().iterator();
+			while (it.hasNext()) {
+				if (it.next().getId() == like.getId())
+					it.remove();
+			}
+			postRepository.save(post);
 			likeRepository.delete(like);
 		} else {
-			User user = userRepository.findById(dto.getUserId()).orElseThrow();
-			Post post = postRepository.findById(dto.getPostId()).orElseThrow();
+			User user = authStaticService.currentUser();
 			like = Like.builder().user(user).post(post).createAt(new Date()).build();
+			post.getLikes().add(like);
+			notificationService.likeNoti(post);
+			postRepository.save(post);
 		}
 	}
 
 	@Override
 	public void comment(CommentDTO dto) throws Exception {
-		User user = userRepository.findById(dto.getUserId()).orElseThrow();
+		User user = authStaticService.currentUser();
 		Post post = postRepository.findById(dto.getPostId()).orElseThrow();
-
+		notificationService.commentNoti(post);
 		Comment comment = Comment.builder().user(user).post(post).content(dto.getContent()).updateAt(new Date())
 				.createAt(new Date()).build();
-
+		post.getComments().add(comment);
 		commentRepository.save(comment);
 	}
 
@@ -168,16 +175,15 @@ public class UserServiceImp implements UserService {
 		Iterator<FriendRequest> it = friendRequests.iterator();
 		User accept = null;
 		try {
-
 			while (it.hasNext()) {
 				FriendRequest friendRequest = it.next();
-
 				accept = userRepository.findById(friendRequest.getFromUser().getId()).get();
 				if (accept.getId() == dto.getUserId()) {
 					user.getFriends().add(accept);
 					accept.getFriends().add(user);
 					it.remove();
 					userRepository.save(user);
+					notificationService.acceptionAddFriend(accept);
 					friendRequestRepository.deleteById(friendRequest.getId());
 					return;
 
@@ -269,4 +275,28 @@ public class UserServiceImp implements UserService {
 		user.setAvatar(ConvertFile.toBlob(dto.getAvatar()));
 		userRepository.save(user);
 	}
+
+	@Override
+	public HomeViewDTO getHomeView() {
+		User u = authStaticService.currentUser();
+
+		return HomeViewDTO.builder().numberAddFriend(u.getFriendRequests().size())
+				.numberNoti(u.getNotifications().size() - u.getCurrentNoti()).build();
+	}
+
+	@Override
+	public void replyComment(ReplyCommentDTO dto) {
+		User curr = authStaticService.currentUser();
+		Comment comment = Comment.builder().user(curr).content(dto.getContent()).build();
+		Comment addTo = commentRepository.findById(dto.getCommentId()).get();
+		addTo.getReplys().add(comment);
+		commentRepository.save(comment);
+		commentRepository.save(addTo);
+	}
+
+	@Override
+	public List<Comment> getComments(int postId) {
+		return postRepository.findById(postId).get().getComments();
+	}
+
 }

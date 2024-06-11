@@ -24,13 +24,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ViewHolder> {
-
+    @Setter
+    private FriendListItemClickListener friendListItemClickListener;
     private Context mContext;
     private List<FriendViewDTO> friends;
 
     public FriendsListAdapter(Context context, List<FriendViewDTO> friendList) {
         mContext = context;
         friends = friendList;
+    }
+
+    public interface FriendListItemClickListener {
+        void onProfileClicked(int userId);
     }
 
     @NonNull
@@ -51,12 +56,22 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 //         Hiển thị hình ảnh trong ImageView
         ImageView imageView = holder.avatarImageView;
         imageView.setImageBitmap(ImageConvertProfile.base64ToBitMap(friend.getAvatar()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (friendListItemClickListener != null) {
+                    friendListItemClickListener.onProfileClicked(friend.getUserId());
+                }
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return friends.size();
     }
+
 
     @Setter
     @Getter

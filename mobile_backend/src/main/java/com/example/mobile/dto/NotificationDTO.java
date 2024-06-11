@@ -12,5 +12,5 @@ public class NotificationDTO {
 	private String content;
 	private long createAt;
 	private String type;
-	private String postId;
+	private int postId;
 }

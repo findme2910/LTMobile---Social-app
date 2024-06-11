@@ -48,11 +48,8 @@ public class User implements UserDetails {
 	private List<Comment> comments;
 	@OneToMany
 	@JsonManagedReference
-	private List<Like> likes;
-	@OneToMany
-	@JsonManagedReference
 	private List<Post> posts;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
+	@ElementCollection
 	private List<User> friends;
 	@OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
 //	@JsonBackReference
@@ -60,6 +57,8 @@ public class User implements UserDetails {
 	private List<FriendRequest> friendRequests;
 	@ElementCollection
 	private List<Notification> notifications;
+	
+	private int currentNoti;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -66,6 +66,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     profileClickListener.onProfileClicked(friend.getUserId());
                 }
             }
+
+
         });
 
     }
@@ -74,6 +76,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     public int getItemCount() {
         return friends.size();
     }
+
+    public void setData(List<FriendViewDTO> newData) {
+        friends.clear();
+        friends.addAll(newData);
+    }
+
 
     @Setter
     @Getter

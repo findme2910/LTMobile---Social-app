@@ -1,4 +1,5 @@
 package com.example.myapplication.ui.adapters;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,86 +7,115 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.myapplication.R;
+import com.example.myapplication.convert.DateConvert;
+import com.example.myapplication.convert.ImageConvert;
 import com.example.myapplication.model.Post;
+import com.example.myapplication.network.api.HandleListener;
+import com.example.myapplication.network.api.Post.PostManager;
+import com.example.myapplication.network.model.dto.LikeDTO;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    private Context mContext;
     private List<Post> posts;
+    private PostManager postManager;
 
-    public PostAdapter(Context context, List<Post> postList) {
-        mContext = context;
-        posts = postList;
+    public PostAdapter(List<Post> posts) {
+        this.posts = posts;
+        this.postManager = new PostManager();
     }
 
     @NonNull
+    @NotNull
     @Override
-    public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.profile_post_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
+        View listItem = layoutInflater.inflate(R.layout.post_item, parent, false);
+        PostAdapter.ViewHolder viewHolder = new PostAdapter.ViewHolder(listItem);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+
         Post post = posts.get(position);
-        holder.nameTextView.setText(post.getUsername());
-        holder.postContentTextView.setText(post.getContent());
+        holder.avatar.setImageBitmap(ImageConvert.base64ToBitMap(post.getAvatar()));
+        holder.img.setImageBitmap(ImageConvert.base64ToBitMap(post.getImg()));
+        holder.content.setText(post.getContent());
+        holder.name.setText(post.getName());
+        holder.comment.setText(post.getNumberOfComment()+" comments");
+        holder.like.setText(post.getNumberOfLike()+" likes");
+        if (post.isLike()) {
 
-        // Thiết lập hình ảnh hoặc các thành phần khác nếu có
+            holder.likeButton.setImageResource(R.drawable.heart);
+        } else {
 
-        holder.likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.isLiked) {
-                    holder.likeButton.setImageResource(R.drawable.icon_heart); // Đổi lại hình ảnh không thích
-                    holder.isLiked = false;
-                } else {
-                    holder.likeButton.setImageResource(R.drawable.icon_heart_pink); // Đổi lại hình ảnh thích
-                    holder.isLiked = true;
+            holder.likeButton.setImageResource(R.drawable.icon_heart);
+        }
+        holder.likeButton.setOnClickListener(n ->{
+            changeLike(holder,post);
+            postManager.like(LikeDTO.builder().postId(post.getPostId()).build(), new HandleListener<String>() {
+                @Override
+                public void onSuccess(String s) {
                 }
-            }
-        });
-
-        holder.commentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.isCommented) {
-                    holder.commentButton.setImageResource(R.drawable.icon_comment_blue);
-                    holder.isCommented = false;
-                } else {
-                    holder.commentButton.setImageResource(R.drawable.ic_comment);
-                    holder.isCommented = true;
+                @Override
+                public void onFailure(String errorMessage) {
+                    System.out.println(errorMessage);
+                   changeLike(holder,post);
                 }
-            }
+            });
         });
+        holder.createAt.setText(DateConvert.convertToString(post.getCreateAt()));
     }
 
     @Override
     public int getItemCount() {
         return posts.size();
     }
+    private static void changeLike(ViewHolder holder , Post post){
+        if(post.isLike()) {
+            post.setNumberOfLike(post.getNumberOfLike() - 1);
+            holder.likeButton.setImageResource(R.drawable.icon_heart);
+            post.setLike(false);
+        }
+        else{
+            post.setNumberOfLike(post.getNumberOfLike() + 1);
+            holder.likeButton.setImageResource(R.drawable.heart);
+            post.setLike(true);
+        }
+        holder.like.setText(post.getNumberOfLike()+" likes");
+    }
 
+    @Getter
+    @Setter
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView profileImageView;
-        public TextView nameTextView, postContentTextView;
-        public ImageButton likeButton, commentButton;
-        public boolean isLiked = false;
-        private boolean isCommented = false;
-        public ViewHolder(View itemView) {
+        private ImageView avatar;
+        private TextView name;
+        private TextView createAt;
+        private TextView content;
+        private ImageView img;
+        private TextView like;
+        private TextView comment;
+        private ImageButton likeButton;
+
+        public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            profileImageView = itemView.findViewById(R.id.profile_post_image);
-            nameTextView = itemView.findViewById(R.id.post_user_name);
-            postContentTextView = itemView.findViewById(R.id.post_content);
-            likeButton = itemView.findViewById(R.id.like_button);
-            commentButton = itemView.findViewById(R.id.comment_button);
+            avatar = itemView.findViewById(R.id.post_user_avatar);
+            name = itemView.findViewById(R.id.post_user_name);
+            createAt = itemView.findViewById(R.id.post_createAt);
+            content = itemView.findViewById(R.id.post_content);
+            img = itemView.findViewById(R.id.post_image);
+            like = itemView.findViewById(R.id.post_number_like);
+            comment = itemView.findViewById(R.id.post_number_comment);
+            likeButton = itemView.findViewById(R.id.post_like_button);
+
         }
     }
 }

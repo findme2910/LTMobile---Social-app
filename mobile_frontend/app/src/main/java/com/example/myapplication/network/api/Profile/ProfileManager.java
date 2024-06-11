@@ -5,6 +5,7 @@ import com.example.myapplication.network.api.HandleListener;
 import com.example.myapplication.network.model.dto.ProfileDTO;
 import com.example.myapplication.network.model.dto.ResponseDTO;
 import com.example.myapplication.network.model.dto.UpdateAvatarDTO;
+import com.example.myapplication.network.model.dto.UserInformationDTO;
 import com.example.myapplication.network.model.instance.JwtTokenManager;
 
 import java.util.List;
@@ -77,4 +78,25 @@ public class ProfileManager {
             }
         });
     }
+
+    public void getUserInfor(HandleListener<UserInformationDTO> handleListener) {
+        ProfileApi profileApi = ApiClient.getRetrofitInstance().create(ProfileApi.class);
+        String token = JwtTokenManager.getInstance().getToken();
+        Call<UserInformationDTO> call = profileApi.getUserInfor("Bearer " + token);
+
+        call.enqueue(new Callback<UserInformationDTO>() {
+            @Override
+            public void onResponse(Call<UserInformationDTO> call, Response<UserInformationDTO> response) {
+                handleListener.onSuccess(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<UserInformationDTO> call, Throwable t) {
+                handleListener.onFailure("load failure");
+            }
+        });
+    }
+
+
 }
